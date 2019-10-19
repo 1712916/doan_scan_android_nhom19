@@ -12,13 +12,14 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
 public class MainActivity extends Activity {
 
     private Bundle savedInstanceState;
 
 
-    DrawingView dv ;
+    DrawingView dv ; //Nắm giữ các thuộc tính khi vẽ ở nơi được "chọn"
     private Paint mPaint;
 
 
@@ -26,8 +27,12 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
-        dv = new DrawingView(this);
-        setContentView(dv);
+        
+		dv = new DrawingView(this);
+		setContentView(R.layout.activity_main);
+        LinearLayout mDrawingPad=(LinearLayout)findViewById(R.id.view_drawing_pad); //xác định vị trí được "chọn" để vẽ
+        mDrawingPad.addView(dv);
+		
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -141,5 +146,6 @@ public class MainActivity extends Activity {
             }
             return true;
         }
+
     }
 }

@@ -8,3 +8,9 @@
 	Chọn ảnh từ thư viện ảnh của máy.
 	http://www.java2s.com/Code/Android/2D-Graphics/DrawonPictureandsave.htm?fbclid=IwAR2cf9TM8jcVIEFKzwrVPbWErE2vxldqPOOFDj_I6eIIDIe4JDXtFoTyIkE
 
+	Chọn màu
+	https://www.youtube.com/watch?v=7qXwgD45b4w
+	
+	Grandle
+	https://stackoverflow.com/questions/16754643/what-is-gradle-in-android-studio
+	https://kipalog.com/posts/Android-tu-co-ban-cho-den-nang-cao---Android-Gradle--P1

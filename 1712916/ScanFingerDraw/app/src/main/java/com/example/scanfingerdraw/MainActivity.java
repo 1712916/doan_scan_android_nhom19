@@ -1,6 +1,7 @@
 package com.example.scanfingerdraw;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +13,10 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class MainActivity extends Activity {
 
@@ -21,7 +25,8 @@ public class MainActivity extends Activity {
 
     DrawingView dv ; //Nắm giữ các thuộc tính khi vẽ ở nơi được "chọn"
     private Paint mPaint;
-
+    Button btnChooseColor;
+    int colorOfPen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +37,41 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
         LinearLayout mDrawingPad=(LinearLayout)findViewById(R.id.view_drawing_pad); //xác định vị trí được "chọn" để vẽ
         mDrawingPad.addView(dv);
-		
+		colorOfPen= ContextCompat.getColor(MainActivity.this,R.color.colorPrimaryDark);
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(Color.GREEN);
+        mPaint.setColor(colorOfPen);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(20);
+
+        btnChooseColor=(Button)findViewById(R.id.btnChooseColor);
+        btnChooseColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openColorPicker();
+            }
+        });
+
     }
 
+    public void openColorPicker(){
+        AmbilWarnaDialog colorPicker=new AmbilWarnaDialog(this, colorOfPen, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                colorOfPen=color;
+                mPaint.setColor(colorOfPen);
+            }
+        });
+        colorPicker.show();
+    }
     public class DrawingView extends View {
 
         public int width;

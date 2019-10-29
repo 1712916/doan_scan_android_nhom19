@@ -1,4 +1,4 @@
-package com.example.scanfingerdraw;
+package com.example.draw;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,12 +18,12 @@ public class DrawingView extends View {
 
 
     public int width;
-    public  int height;
-    private int mcolor= Color.BLACK;
+    public int height;
+    private int mcolor = Color.BLACK;
     Context context;
     public Paint mPaint = initPaint(mcolor); //doi tuong de ve
     private Path mPath;
-    private Bitmap mBitmap;
+    private Bitmap mBitmap; //luu giu be mat duoc ve len
     private Canvas mCanvas;
 
     //  private Paint   mBitmapPaint;
@@ -32,10 +32,11 @@ public class DrawingView extends View {
     private Path circlePath;
 
     private ArrayList<Path> paths = new ArrayList<Path>();
-    private ArrayList<Paint> paints=new ArrayList<Paint>();
+    private ArrayList<Paint> paints = new ArrayList<Paint>();
+
     public DrawingView(Context c) {
         super(c);
-        context=c;
+        context = c;
         mPath = new Path();
         //mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
@@ -67,12 +68,11 @@ public class DrawingView extends View {
         //canvas.drawCircle(50,50,50,mBitmapPaint); //new add
         //canvas.drawBitmap( mBitmap, 0, 0, mPaint);
 
-        for(int i=0;i<paths.size();i++)
-        {
-            canvas.drawPath(paths.get(i),paints.get(i));
+        for (int i = 0; i < paths.size(); i++) {
+            canvas.drawPath(paths.get(i), paints.get(i));
         }
-        canvas.drawPath( mPath,  mPaint);
-        canvas.drawPath( circlePath,  circlePaint);
+        canvas.drawPath(mPath, mPaint);
+        canvas.drawPath(circlePath, circlePaint);
            /* for (Path p : paths){
                 canvas.drawPath(p, mPaint);
             }*/
@@ -97,7 +97,7 @@ public class DrawingView extends View {
              * điểm cuối là lúc nhấc tay ra
              * Hàm lineTo bên dưới nối hai điểm từ điểm cuối với điểm đầu
              * nên hàm quadTo xác định(điểm cuối) trong suốt quá trình tay mình rê trên màn hình*/
-            mPath.quadTo(mX, mY, (x + mX)/2, (y + mY)/2);
+            mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
             mX = x;
             mY = y;
 
@@ -111,7 +111,7 @@ public class DrawingView extends View {
         mPath.lineTo(mX, mY); //nối hai điểm
         circlePath.reset();
         // commit the path to our offscreen //ghi nhận những gì đã vẽ, có nghĩa khi vẽ xong nó không có mất đi
-        mCanvas.drawPath(mPath,  mPaint);
+        mCanvas.drawPath(mPath, mPaint);
         // kill this so we don't double draw
 
         paths.add(mPath);
@@ -142,21 +142,19 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void onClickUndo () {
-        if (paths.size()>0)
-        {
-            paths.remove(paths.size()-1);
-            paints.remove(paints.size()-1);
+    public void onClickUndo() {
+        if (paths.size() > 0) {
+            paths.remove(paths.size() - 1);
+            paints.remove(paints.size() - 1);
             invalidate();
-        }
-        else
-        {
+        } else {
 
         }
         //toast the user
     }
-    public Paint initPaint(int color){
-        Paint mPaint=new Paint();
+
+    public Paint initPaint(int color) {
+        Paint mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(color);
@@ -167,8 +165,8 @@ public class DrawingView extends View {
         return mPaint;
     }
 
-    public void openColorPicker(){
-        AmbilWarnaDialog colorPicker=new AmbilWarnaDialog(context, mcolor, new OnAmbilWarnaListener() {
+    public void openColorPicker() {
+        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(context, mcolor, new OnAmbilWarnaListener() {
             @Override
             public void onCancel(AmbilWarnaDialog dialog) {
 
@@ -177,11 +175,15 @@ public class DrawingView extends View {
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
 
-                mcolor=color;
-                mPaint=initPaint(mcolor);
+                mcolor = color;
+                mPaint = initPaint(mcolor);
             }
         });
         colorPicker.show();
     }
 
+    public Bitmap getmBitmap() {
+        return mBitmap;
+    }
 }
+

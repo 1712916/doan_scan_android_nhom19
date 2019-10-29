@@ -26,30 +26,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Undo" />
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
     </LinearLayout>
-
 
     <LinearLayout
+        android:id="@+id/abc"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="-2dp"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:weightSum="1.0">
+        android:layout_height="373dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:background="#D3D3C5"
-            android:id="@+id/view_drawing_pad"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
-        </LinearLayout>
 
     </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/img_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ImageView>
+
+
+
+
 </LinearLayout>

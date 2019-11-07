@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ADDBAE">
+
+    <ImageView
+        android:id="@+id/imageViewHinh2"
+        android:layout_width="372dp"
+        android:layout_height="372dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="13px" />
+
+    <TextView
+        android:id="@+id/textViewTen2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageViewHinh2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="37dp"
+        android:text="Tên: "
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewTenContent2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageViewHinh2"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="37dp"
+        android:layout_toEndOf="@+id/textViewTen2"
+        android:layout_toRightOf="@+id/textViewTen2"
+        android:text=""
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewMota2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTen2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="41dp"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="39dp"
+        android:text="Mô tả: "
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/textViewMotaContent2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTen2"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="38dp"
+        android:layout_toEndOf="@+id/textViewMota2"
+        android:layout_toRightOf="@+id/textViewMota2"
+        android:text=""
+        android:textSize="20sp" />
+</RelativeLayout>

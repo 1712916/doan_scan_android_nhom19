@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/iv_image"
+        android:layout_above="@id/button_save"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save"
+        android:enabled="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        tools:ignore="UnknownId" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List Dirs"
+        android:id="@+id/button_list"
+        android:layout_alignBottom="@+id/button_save"
+        android:layout_toRightOf="@+id/button_save"
+        android:layout_toEndOf="@+id/button_save"
+        tools:ignore="UnknownId" />
+
+</RelativeLayout>

@@ -14,3 +14,11 @@
 	Grandle
 	https://stackoverflow.com/questions/16754643/what-is-gradle-in-android-studio
 	https://kipalog.com/posts/Android-tu-co-ban-cho-den-nang-cao---Android-Gradle--P1
+
+	https://stackoverflow.com/questions/41093454/android-how-to-implement-drawing-on-top-of-image
+
+	Lấy bitmap từ drawable:
+	https://stackoverflow.com/questions/15255611/how-to-convert-a-drawable-image-from-resources-to-a-bitmap/15255786
+
+	Kết hợp 2 bipmap lại với nhau:
+	https://stackoverflow.com/questions/31813638/how-to-merge-bitmaps-in-android

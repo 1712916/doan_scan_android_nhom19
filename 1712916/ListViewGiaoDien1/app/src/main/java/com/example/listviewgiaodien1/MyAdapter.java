@@ -8,17 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.listviewgiaodien1.Anh;
-
 import java.util.List;
 
-public class DanhSachAnhAdapter extends BaseAdapter {
+public class MyAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
-    private List<Anh> List;
+    private List<ItemRow> List;
 
-    public DanhSachAnhAdapter(Context context, int layout, List<Anh> List) {
+    public MyAdapter(Context context, int layout, List<ItemRow> List) {
         this.context = context;
         this.layout = layout;
         this.List = List;
@@ -40,8 +38,8 @@ public class DanhSachAnhAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        ImageView imgHinh;
-        TextView txtTen;
+        ImageView imgIcon;
+        TextView txtText;
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -53,8 +51,8 @@ public class DanhSachAnhAdapter extends BaseAdapter {
             view=inflater.inflate(layout,null);
             holder=new ViewHolder();
             //ánh xạ view
-            holder.txtTen=(TextView)view.findViewById(R.id.textviewTen);
-            holder.imgHinh=(ImageView)view.findViewById(R.id.imageviewHinh);
+            holder.txtText=(TextView)view.findViewById(R.id.textviewTen);
+            holder.imgIcon=(ImageView)view.findViewById(R.id.imageviewHinh);
             view.setTag(holder);
         }
         else
@@ -64,10 +62,10 @@ public class DanhSachAnhAdapter extends BaseAdapter {
 
 
         //gán giá trị
-        Anh anh=List.get(i);
-        holder.txtTen.setText(anh.getTen());
+        ItemRow itemRow=List.get(i);
+        holder.txtText.setText(itemRow.getText());
 
-        holder.imgHinh.setImageResource(anh.getDiaChi());
+        holder.imgIcon.setImageResource(itemRow.getIcon());
         return view;
     }
 }

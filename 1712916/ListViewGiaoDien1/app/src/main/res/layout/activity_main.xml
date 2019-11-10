@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:orientation="horizontal">
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="Menu Space 1" />
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="Menu Space 2" />
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</LinearLayout>
-
-
+<!--
     <ListView
 
         android:id="@+id/listviewAnh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8" />
+        android:layout_height="wrap_content"
+        />-->
+    <ImageView
+        android:id="@+id/a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-    <LinearLayout
+    <GridView
+        android:id="@+id/listviewAnh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:numColumns="3"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
 
-        <Button
+        <ImageButton
+            android:id="@+id/btn_camera"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Chup Anh" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/btn_load_images"
+            android:background="@null"
+            android:src="@drawable/icons_camera" />
 
-        <Button
+        <ImageButton
+            android:id="@+id/btn_load_images"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Mo Anh" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_margin="20dp"
+            android:background="@null"
+            android:src="@drawable/icons_open_images" />
+    </RelativeLayout>
+
+</RelativeLayout>
 
 
-</LinearLayout>
+
+
+
+
 
 
 

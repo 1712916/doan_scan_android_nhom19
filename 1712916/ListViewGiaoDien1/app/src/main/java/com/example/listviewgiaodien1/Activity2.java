@@ -2,6 +2,7 @@ package com.example.listviewgiaodien1;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +20,8 @@ public class Activity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
 
-        imgView2=(ImageView) findViewById(R.id.imageViewHinh2);
-        txtViewTenContent2=(TextView)findViewById(R.id.textViewTenContent2);
+        imgView2=(ImageView) findViewById(R.id.imgView_OnClick);
+       txtViewTenContent2=(TextView)findViewById(R.id.aa);
 
 
         setDataBundle();
@@ -31,14 +32,10 @@ public class Activity2 extends AppCompatActivity {
 
         Intent intent=getIntent();
 
-        Bundle bundle=intent.getExtras();
+       Bundle bundle=intent.getExtras();
         if(bundle!=null)
         {
-            String ten=bundle.getString("TEN");
-            int hinh=  bundle.getInt("HINH",0);
 
-            txtViewTenContent2.setText(ten);
-            imgView2.setImageResource(hinh);
         }
 
 

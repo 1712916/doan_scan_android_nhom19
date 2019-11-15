@@ -14,3 +14,10 @@
 	Grandle
 	https://stackoverflow.com/questions/16754643/what-is-gradle-in-android-studio
 	https://kipalog.com/posts/Android-tu-co-ban-cho-den-nang-cao---Android-Gradle--P1
+
+
+	Sử dụng PagerView and TabLayout
+	https://medium.com/@kyroschow/how-to-use-viewpager-for-navigating-between-fragments-with-tablayout-a28b4cf92c42
+	
+	Lấy danh sách các file trong 1 Directory
+	https://www.youtube.com/watch?v=JPqhF_fqLsE

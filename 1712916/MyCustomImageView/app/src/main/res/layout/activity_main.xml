@@ -24,12 +24,18 @@
         <com.example.mycustomimageview.MyCustomView
             android:id="@+id/myview"
             android:layout_weight="5"
-            android:layout_width="wrap_content"
+            android:background="@color/colorPrimary"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/test"
             android:layout_weight="5"
-            android:layout_width="wrap_content"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 

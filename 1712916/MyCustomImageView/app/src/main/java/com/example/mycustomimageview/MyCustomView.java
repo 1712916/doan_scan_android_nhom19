@@ -5,12 +5,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -24,6 +28,7 @@ public class MyCustomView extends ImageView {
     private Path mPath=new Path();
     private Canvas mCanvas;
     private Bitmap mBitmap;
+    private Bitmap altBitmap;
 
     private ArrayList<Path> paths = new ArrayList<Path>();
     private ArrayList<Paint> paints = new ArrayList<Paint>();
@@ -42,16 +47,16 @@ public class MyCustomView extends ImageView {
     public MyCustomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
-
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MyCustomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        altBitmap = Bitmap.createBitmap(mBitmap.getWidth(),mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(altBitmap);
     }
-
     private void init(){
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -61,7 +66,6 @@ public class MyCustomView extends ImageView {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(20);
     }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -70,6 +74,8 @@ public class MyCustomView extends ImageView {
             canvas.drawPath(paths.get(i), paints.get(i));
         }
         canvas.drawPath(mPath,mPaint);
+
+
     }
 
 
@@ -77,13 +83,16 @@ public class MyCustomView extends ImageView {
     private static final float TOUCH_TOLERANCE = 4;
 
     private void touch_start(float x, float y) {
-        //mPath.reset();
+        mPath.reset();
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
+
     }
 
     private void touch_move(float x, float y) {
+
+
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
@@ -102,11 +111,12 @@ public class MyCustomView extends ImageView {
     }
 
     private void touch_up() {
-
+ /*
+*/
         mPath.lineTo(mX, mY); //nối hai điểm
         //circlePath.reset();
         // commit the path to our offscreen //ghi nhận những gì đã vẽ, có nghĩa khi vẽ xong nó không có mất đi
-        //Canvas.drawPath(mPath, mPaint);
+        mCanvas.drawPath(mPath, mPaint);
         // kill this so we don't double draw
 
         paths.add(mPath);
@@ -119,20 +129,22 @@ public class MyCustomView extends ImageView {
         float x = event.getX();
         float y = event.getY();
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touch_start(x, y);
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    touch_start(x, y);
 
-                break;
-            case MotionEvent.ACTION_MOVE:
-                touch_move(x, y);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    touch_move(x, y);
 
-                break;
-            case MotionEvent.ACTION_UP:
-                touch_up();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    touch_up();
 
-                break;
-        }
+                    break;
+            }
+
+
         invalidate();
         return true;
     }
@@ -150,17 +162,21 @@ public class MyCustomView extends ImageView {
 
     public void setmBitmap(Bitmap mBitmap) {
         this.mBitmap = mBitmap;
+        setImageBitmap(this.mBitmap);
     }
 
-    public Bitmap getmBitmap() {
-        Bitmap rsBitmap;
-        rsBitmap=Bitmap.createBitmap(mBitmap);
-        mCanvas=new Canvas(rsBitmap);
-        for (int i = 0; i < paths.size(); i++) {
-            mCanvas.drawPath(paths.get(i), paints.get(i));
-        }
 
-        return rsBitmap;
+    public  Bitmap getNewImage(){
+
+        Bitmap result;
+
+        setDrawingCacheEnabled(true);
+        destroyDrawingCache();
+        setDrawingCacheQuality(DRAWING_CACHE_QUALITY_LOW);
+        result=getDrawingCache();
+
+        return result;
+
     }
 
 }

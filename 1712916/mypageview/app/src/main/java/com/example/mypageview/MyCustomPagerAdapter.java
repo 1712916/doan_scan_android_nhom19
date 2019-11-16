@@ -14,6 +14,7 @@ public class MyCustomPagerAdapter extends PagerAdapter {
     private LayoutInflater inflater;
     private ArrayList<Integer> arr;
 
+
     public MyCustomPagerAdapter(Context context, ArrayList<Integer> arr) {
         this.inflater = LayoutInflater.from(context);
         this.arr = arr;

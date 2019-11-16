@@ -64,9 +64,10 @@ public class ListViewAdapter extends BaseAdapter {
         //gán giá trị
         ItemRow itemRow=List.get(i);
         holder.txtText.setText(itemRow.getText());
-
-        holder.imgIcon.setImageResource(itemRow.getIcon());
+        holder.imgIcon.setImageResource(R.drawable.icons_pdf);
         return view;
     }
+
+
 }
 

@@ -1,10 +1,11 @@
 package com.example.mypageview;
 
 
+import android.net.Uri;
 
 public class ItemRow {
     private String text;
-    private int icon;
+    private Uri uri;
 
     public String getText() {
         return text;
@@ -14,16 +15,14 @@ public class ItemRow {
         this.text = text;
     }
 
-    public int getIcon() {
-        return icon;
+
+    public Uri getUri() {
+        return uri;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
-    public ItemRow(String text, int icon) {
-        this.text = text;
-        this.icon = icon;
-    }
+
 }

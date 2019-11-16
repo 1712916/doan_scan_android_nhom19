@@ -171,7 +171,6 @@ public class MainActivity extends Activity {
 
             // Kiểm tra quyền
             int permission = ActivityCompat.checkSelfPermission(this, permissionName);
-
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 // Nếu không có quyền, cần nhắc người dùng cho phép.
                 this.requestPermissions(
@@ -191,7 +190,6 @@ public class MainActivity extends Activity {
                                            String permissions[], int[] grantResults) {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
 
         // Chú ý: Nếu yêu cầu bị hủy, mảng kết quả trả về là rỗng.
         if (grantResults.length > 0) {
@@ -208,7 +206,8 @@ public class MainActivity extends Activity {
                     }
                 }
             }
-        } else {
+        } else
+            {
             Toast.makeText(getApplicationContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
         }
     }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:weightSum="12"
+   >
+
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnUndo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="undo"></Button>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="save"></Button>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color"></Button>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnPaintSize_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tang"></Button>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnPaintSize_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giam"></Button>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+android:layout_weight="10"
+        android:gravity="center" >
+
+        <com.example.mayscanner.MyCustomView
+            android:id="@+id/myview"
+
+            android:background="@color/colorPrimary"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/aaaaaaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MENU BOTTOM"></Button>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

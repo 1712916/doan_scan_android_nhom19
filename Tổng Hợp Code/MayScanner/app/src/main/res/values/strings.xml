@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MayScanner</string>
+    <string name="share_email_native"></string>
+    <string name="share_email_subject"></string>
+    <string name="share_chooser_text"></string>
+    <string name="share_twitter"></string>
+    <string name="share_facebook"></string>
+    <string name="share_sms"></string>
+    <string name="share_email_gmail"></string>
+    <string name="send_to">Chon app de gui data</string>
 </resources>

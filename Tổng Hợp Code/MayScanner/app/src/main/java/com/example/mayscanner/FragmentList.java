@@ -1,6 +1,7 @@
 package com.example.mayscanner;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,8 +45,8 @@ public class FragmentList  extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              /*  Intent intent=new Intent(getContext(),ShareFileActivity.class);
-                startActivity(intent);*/
+                Intent intent=new Intent(getContext(),ShareFileActivity.class);
+                startActivity(intent);
             }
         });
 

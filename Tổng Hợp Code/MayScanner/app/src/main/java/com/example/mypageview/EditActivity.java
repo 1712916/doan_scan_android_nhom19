@@ -1,4 +1,4 @@
-package com.example.mayscanner;
+package com.example.mypageview;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,8 +25,7 @@ public class EditActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getBaseContext(),DrawActivity.class);
-                intent.putExtra("URI", uri.toString());
-                intent.putExtra("POSITION",postition);
+
                 startActivity(intent);
             }
         });

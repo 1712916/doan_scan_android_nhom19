@@ -1,16 +1,12 @@
-package com.example.mayscanner;
+package com.example.mypageview;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,7 +15,6 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,9 +23,6 @@ public class DrawActivity extends Activity {
     MyCustomView myCustomView;
     ImageView test;
     Button btnUndo,btnSave,btnColor,btnTang,btnGiam;
-    Uri uri;
-    int postition;
-    String fileName="ngo tan vinh";
     Bitmap bitmap;
     Bitmap mBitmap;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
@@ -46,10 +38,10 @@ public class DrawActivity extends Activity {
         btnColor=(Button)findViewById(R.id.btnColor);
         btnTang=(Button)findViewById(R.id.btnPaintSize_1);
         btnGiam=(Button)findViewById(R.id.btnPaintSize_2);
-        //bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.win);
+        bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.win);
         // myCustomView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.win));
-        recvData();
 
+        myCustomView.setmBitmap(bitmap);
 
 
 
@@ -112,7 +104,7 @@ public class DrawActivity extends Activity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         //
         if (canWrite) {
-            this.saveBitmap(mBitmap,fileName);
+            this.saveBitmap(mBitmap);
         }
     }
     private boolean askPermission(int requestId, String permissionName) {
@@ -133,12 +125,12 @@ public class DrawActivity extends Activity {
         }
         return true;
     }
-    private void saveBitmap(Bitmap bm,String fileName){
+    private void saveBitmap(Bitmap bm){
         //File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File file = Environment.getExternalStorageDirectory();
         File directory=new File(file.getAbsolutePath()+"/Pictures/Ahihi");
         directory.mkdirs();
-        File newFile = new File(directory, fileName+".jpg");
+        File newFile = new File(directory, "132132123.jpg");
         //File newFile = new File(file, "aaaaaaaaaaaaaaaaaaaaaa.jpg");
 
         try {
@@ -161,42 +153,6 @@ public class DrawActivity extends Activity {
                     "Something wrong: " + e.getMessage(),
                     Toast.LENGTH_LONG).show();
         }
-    }
-
-    public void recvData(){
-
-        Intent intent=getIntent();
-        if(intent!=null)
-        {
-            uri = Uri.parse(intent.getStringExtra("URI"));
-            postition=intent.getIntExtra("POSITION",0);
-            mBitmap=uriToBitmap(uri);
-
-
-            myCustomView.setmBitmap(mBitmap);
-
-
-        }
-
-
-
-
-    }
-
-    private Bitmap uriToBitmap(Uri selectedFileUri) {
-        Bitmap image=null;
-        try {
-            ParcelFileDescriptor parcelFileDescriptor =
-                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
-            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-            image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-
-
-            parcelFileDescriptor.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
     }
 
 }

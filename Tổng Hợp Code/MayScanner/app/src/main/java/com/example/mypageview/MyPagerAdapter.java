@@ -1,4 +1,4 @@
-package com.example.mayscanner;
+package com.example.mypageview;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

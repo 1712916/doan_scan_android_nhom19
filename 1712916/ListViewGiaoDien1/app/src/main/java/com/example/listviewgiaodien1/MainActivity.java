@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                   }
 
                  //add bitmap mới vào gridview image
+                  Intent intent=new Intent(getApplicationContext(),Activity2.class);
+                    intent.putExtra("URI",source.toString());
+                  startActivity(intent);
 
 
                   break;

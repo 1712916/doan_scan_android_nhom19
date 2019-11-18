@@ -1,4 +1,4 @@
-package com.example.mayscanner;
+package com.example.mypageview;
 
 import android.content.Context;
 import android.view.LayoutInflater;

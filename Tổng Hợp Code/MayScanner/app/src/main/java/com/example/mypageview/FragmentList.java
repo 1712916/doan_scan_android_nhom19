@@ -1,7 +1,6 @@
-package com.example.mayscanner;
+package com.example.mypageview;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,43 +20,39 @@ import androidx.fragment.app.Fragment;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FragmentGrid extends Fragment {
-    public static final String _URI="URI";
-    public static final String _POS="POSITION";
-    private GridView gridView;
-    private ArrayList<ItemRow> array_view_images;
-    GridViewAdapter gridViewAdapter;
+public class FragmentList  extends Fragment {
+    private ListView listView;
+    private ArrayList<ItemRow> array_view_pdf;
+    ListViewAdapter listViewAdapter;
     private static final int REQUEST_ID_READ_PERMISSION = 200;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view=inflater.inflate(R.layout.grid_images,container,false);
-        gridView=(GridView)view.findViewById(R.id.grid_view_images);
+        View view=inflater.inflate(R.layout.list_pdf,container,false);
+        listView=(ListView) view.findViewById(R.id.list_view_pdf);
 
-        //load du lieu cho array_view_images
-        array_view_images=new ArrayList<>();
+        //load du lieu cho array_view_pdf
+        array_view_pdf=new ArrayList<>();
         askPermissionAndWriteFile();
 
 
-        gridViewAdapter=new GridViewAdapter(getContext(),R.layout.grid_item,array_view_images);
+        listViewAdapter=new ListViewAdapter(getContext(),R.layout.list_view_item,array_view_pdf);
 
-        gridView.setAdapter(gridViewAdapter);
+        listView.setAdapter(listViewAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent=new Intent(getActivity(),EditActivity.class);
-                intent.putExtra(_URI, array_view_images.get(position).getUri().toString());
-                intent.putExtra(_POS,position);
-                startActivity(intent);
-
+              /*  Intent intent=new Intent(getContext(),ShareFileActivity.class);
+                startActivity(intent);*/
             }
         });
+
         return  view;
 
     }
+
     public ArrayList<ItemRow> getFilePaths() {
         ArrayList<ItemRow> listItem=new ArrayList<>();
         //File dowloadsFolder= getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
@@ -83,12 +78,12 @@ public class FragmentGrid extends Fragment {
 
         }else
         {
-            Toast.makeText(getActivity(),"KO mo duoc file de lay du lieu",Toast.LENGTH_LONG).show();
+           Toast.makeText(getActivity(),"KO mo duoc file de lay du lieu",Toast.LENGTH_LONG).show();
         }
 
         return listItem;
     }
-  /*  @Override
+    @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
 
@@ -99,14 +94,14 @@ public class FragmentGrid extends Fragment {
             switch (requestCode) {
                 case REQUEST_ID_READ_PERMISSION: {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                     //   array_view_images=getFilePaths();
+                        array_view_pdf=getFilePaths();
                     }
                 }
             }
         } else {
             Toast.makeText(getActivity(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
     // With Android Level >= 23, you have to ask the user
     // for permission with device (For example read/write data on the device).
     private boolean askPermission(int requestId, String permissionName) {
@@ -133,7 +128,7 @@ public class FragmentGrid extends Fragment {
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         //
         if (canWrite) {
-            array_view_images=this.getFilePaths();
+            array_view_pdf=this.getFilePaths();
         }
     }
 }

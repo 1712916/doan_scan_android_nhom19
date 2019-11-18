@@ -1,4 +1,4 @@
-package com.example.mayscanner;
+package com.example.mypageview;
 
 import android.os.Bundle;
 

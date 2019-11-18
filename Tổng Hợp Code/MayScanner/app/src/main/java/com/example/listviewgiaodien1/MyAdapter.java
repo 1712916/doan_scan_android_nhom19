@@ -1,4 +1,4 @@
-package com.example.mayscanner;
+package com.example.listviewgiaodien1;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class ListViewAdapter extends BaseAdapter {
+public class MyAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
     private List<ItemRow> List;
 
-    public ListViewAdapter(Context context, int layout, List<ItemRow> List) {
+    public MyAdapter(Context context, int layout, List<ItemRow> List) {
         this.context = context;
         this.layout = layout;
         this.List = List;
@@ -51,8 +51,8 @@ public class ListViewAdapter extends BaseAdapter {
             view=inflater.inflate(layout,null);
             holder=new ViewHolder();
             //ánh xạ view
-            holder.txtText=(TextView)view.findViewById(R.id.item_text);
-            holder.imgIcon=(ImageView)view.findViewById(R.id.item_icon);
+            holder.txtText=(TextView)view.findViewById(R.id.textviewTen);
+            holder.imgIcon=(ImageView)view.findViewById(R.id.imageviewHinh);
             view.setTag(holder);
         }
         else
@@ -64,10 +64,8 @@ public class ListViewAdapter extends BaseAdapter {
         //gán giá trị
         ItemRow itemRow=List.get(i);
         holder.txtText.setText(itemRow.getText());
-        holder.imgIcon.setImageResource(R.drawable.icons_pdf);
+
+        holder.imgIcon.setImageResource(itemRow.getIcon());
         return view;
     }
-
-
 }
-

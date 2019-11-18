@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.mypageview"
+        applicationId "com.example.mayscanner"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
@@ -36,5 +36,8 @@ dependencies {
 
     //thu vien color
     implementation 'com.github.yukuku:ambilwarna:2.0.1'
+
+    //image to text google library
+    implementation 'com.google.android.gms:play-services-vision:16.2.0'
 
 }

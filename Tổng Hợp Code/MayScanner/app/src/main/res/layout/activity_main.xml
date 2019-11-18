@@ -18,4 +18,37 @@
         >
 
     </androidx.viewpager.widget.ViewPager>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        >
+
+        <ImageButton
+            android:id="@+id/btn_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/btn_load_images"
+            android:background="@null"
+            android:src="@drawable/icons_camera" />
+
+        <ImageButton
+            android:id="@+id/btn_load_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_margin="20dp"
+            android:background="@null"
+            android:src="@drawable/icons_open_images" />
+    </RelativeLayout>
+
 </RelativeLayout>

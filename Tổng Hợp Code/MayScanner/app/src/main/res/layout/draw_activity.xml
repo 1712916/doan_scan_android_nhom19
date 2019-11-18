@@ -3,10 +3,12 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:weightSum="12"
    >
 
 
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
@@ -42,14 +44,37 @@
             android:text="Giam"></Button>
 
     </LinearLayout>
-    <com.example.mypageview.MyCustomView
-        android:id="@+id/myview"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+android:layout_weight="10"
+        android:gravity="center" >
 
-        android:background="@color/colorPrimary"
-        android:adjustViewBounds="true"
-        android:layout_gravity="center"
+        <com.example.mayscanner.MyCustomView
+            android:id="@+id/myview"
+
+            android:background="@color/colorPrimary"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/aaaaaaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MENU BOTTOM"></Button>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

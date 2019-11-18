@@ -1,22 +1,26 @@
-package com.example.mypageview;
+package com.example.mayscanner;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
-public class ListViewAdapter extends BaseAdapter {
+public class GridViewAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
     private List<ItemRow> List;
 
-    public ListViewAdapter(Context context, int layout, List<ItemRow> List) {
+    public GridViewAdapter(Context context, int layout, List<ItemRow> List) {
         this.context = context;
         this.layout = layout;
         this.List = List;
@@ -39,7 +43,6 @@ public class ListViewAdapter extends BaseAdapter {
 
     private class ViewHolder{
         ImageView imgIcon;
-        TextView txtText;
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -51,8 +54,8 @@ public class ListViewAdapter extends BaseAdapter {
             view=inflater.inflate(layout,null);
             holder=new ViewHolder();
             //ánh xạ view
-            holder.txtText=(TextView)view.findViewById(R.id.item_text);
-            holder.imgIcon=(ImageView)view.findViewById(R.id.item_icon);
+            holder.imgIcon=(ImageView)view.findViewById(R.id.imgv_grid_item);
+
             view.setTag(holder);
         }
         else
@@ -62,12 +65,32 @@ public class ListViewAdapter extends BaseAdapter {
 
 
         //gán giá trị
-        ItemRow itemRow=List.get(i);
-        holder.txtText.setText(itemRow.getText());
-        holder.imgIcon.setImageResource(R.drawable.icons_pdf);
+        ItemRow itemRow;
+        if(List.get(i)!=null)
+        {
+            itemRow=List.get(i);
+            //Bitmap bitmap = decodeUriToBitmap(this.context,itemRow.getUri());
+            //holder.imgIcon.setImageBitmap(bitmap);
+            holder.imgIcon.setImageURI(itemRow.getUri());
+
+        }
+
         return view;
     }
 
-
+    public static Bitmap decodeUriToBitmap(Context mContext, Uri sendUri) {
+        Bitmap getBitmap = null;
+        try {
+            InputStream image_stream;
+            try {
+                image_stream = mContext.getContentResolver().openInputStream(sendUri);
+                getBitmap = BitmapFactory.decodeStream(image_stream);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getBitmap;
+    }
 }
-

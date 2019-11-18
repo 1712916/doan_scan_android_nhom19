@@ -1,4 +1,4 @@
-package com.example.mypageview;
+package com.example.mayscanner;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

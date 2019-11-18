@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     MyAdapter adapter;
     ImageButton btnCamera,btnLoadImage;
     final int PICK_IMAGES = 1;
+    final int TAKE_PHOTO =2;
     Uri source;
     Bitmap pickImage;
     @Override
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
       if(resultCode==RESULT_OK ){
           switch (requestCode) {
               case PICK_IMAGES: {
+
+
                   source = data.getData();
                   try {
                       pickImage = BitmapFactory.decodeStream(

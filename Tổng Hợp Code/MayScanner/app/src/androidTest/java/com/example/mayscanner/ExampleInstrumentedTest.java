@@ -1,4 +1,4 @@
-package com.example.listviewgiaodien1;
+package com.example.mayscanner;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.listviewgiaodien1", appContext.getPackageName());
+        assertEquals("com.example.mayscanner", appContext.getPackageName());
     }
 }

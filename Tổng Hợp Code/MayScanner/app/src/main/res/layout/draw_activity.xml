@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical"
+    android:weightSum="12">
+
+    <com.example.mayscanner.MyCustomView
+        android:id="@+id/myview"
+
+        android:layout_width="fill_parent"
+        android:layout_height="500dp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:background="#EEEEEE" />
+
+    <az.rasul.triangleseekbar.TriangleSeekbar
+        android:id="@+id/triangleSeekbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:progress="0.20"
+        app:seekbarColor="#B8B5B5"
+        app:seekbarLoadingColor="#512DA8" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/thickness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thickness: "></TextView>
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.20"></TextView>
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnUndo"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/button_selector"
+                android:drawableTop="@drawable/undo"
+                android:drawableTint="#388E3C"
+                android:shadowColor="#000000"
+                android:text="undo"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btnColor"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/button_selector"
+                android:drawableTop="@drawable/color"
+                android:shadowColor="#000000"
+                android:text="pick color"
+                android:textSize="20dp"></Button>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/button_selector"
+                android:drawableTop="@drawable/save"
+                android:drawableTint="#FF388E3C"
+                android:shadowColor="#000000"
+                android:text="save"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

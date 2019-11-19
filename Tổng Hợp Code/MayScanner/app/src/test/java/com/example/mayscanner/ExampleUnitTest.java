@@ -1,4 +1,4 @@
-package com.example.listviewgiaodien1;
+package com.example.mayscanner;
 
 import org.junit.Test;
 

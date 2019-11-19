@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical">
+
+    <com.example.mayscanner.ZoomableImageView
+        android:id="@+id/imgv_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="450dp" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnToEdit"
+                    android:layout_width="200dp"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/button_selector"
+                    android:drawableTop="@drawable/draw"
+                    android:drawableTint="#388E3C"
+                    android:shadowColor="#000000"
+                    android:text="DRAW"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btnOcr"
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="1dp"
+                    android:background="@drawable/button_selector"
+                    android:drawableTop="@drawable/ocr"
+                    android:drawableTint="#FF388E3C"
+                    android:shadowColor="#000000"
+                    android:text="OCR"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnToDrop"
+                    android:layout_width="200dp"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/button_selector"
+                    android:drawableTop="@drawable/crop"
+                    android:drawableTint="#388E3C"
+                    android:shadowColor="#000000"
+                    android:text="CROP"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btnToRotate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="1dp"
+                    android:background="@drawable/button_selector"
+                    android:drawableTop="@drawable/rotate"
+                    android:drawableTint="#FF388E3C"
+                    android:shadowColor="#000000"
+                    android:text="ROTATE"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnShare"
+                    android:layout_width="200dp"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/button_selector"
+                    android:drawableTop="@drawable/share"
+                    android:drawableTint="#388E3C"
+                    android:shadowColor="#000000"
+                    android:text="share"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btnPdf"
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="1dp"
+                    android:background="@drawable/button_selector"
+                    android:drawableTop="@drawable/pdfsave"
+                    android:drawableTint="#FF388E3C"
+                    android:shadowColor="#000000"
+                    android:text="Convert to Pdf"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

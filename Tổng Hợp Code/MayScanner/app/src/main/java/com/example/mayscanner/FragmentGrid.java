@@ -20,10 +20,10 @@ import androidx.fragment.app.Fragment;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class FragmentGrid extends Fragment {
-    public static final String _URI="URI";
-    public static final String _POS="POSITION";
+
     private GridView gridView;
     private ArrayList<ItemRow> array_view_images;
     GridViewAdapter gridViewAdapter;
@@ -47,22 +47,25 @@ public class FragmentGrid extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String fileName=array_view_images.get(position).getText();
+                StringTokenizer tokens = new StringTokenizer(fileName, ".");
 
+                fileName=tokens.nextToken();
+                Toast.makeText(getContext(),fileName,Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(getActivity(),EditActivity.class);
-                intent.putExtra(_URI, array_view_images.get(position).getUri().toString());
-                intent.putExtra(_POS,position);
+                intent.putExtra("URI", array_view_images.get(position).getUri().toString());
+                intent.putExtra("FILENAME",fileName);
                 startActivity(intent);
 
             }
         });
         return  view;
-
     }
     public ArrayList<ItemRow> getFilePaths() {
         ArrayList<ItemRow> listItem=new ArrayList<>();
-        //File dowloadsFolder= getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        //File dowloadsFolder= getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File file = Environment.getExternalStorageDirectory();
-        File directory=new File(file.getAbsolutePath()+"/MyScanPDF/Images");
+        File directory=new File(file.getAbsolutePath()+"/ScanPDF/Images");
 
 
 

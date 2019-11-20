@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menuLogIn"
+        android:title="Đăng nhập bằng email bất kì"/>
+    <item android:id="@+id/menuLogOut"
+        android:title="Đăng xuất"/>
+    <item android:id="@+id/menuSignUp"
+        android:title="Đăng kí"/>
+    <item android:id="@+id/menuVerify"
+        android:title="Xác minh email"/>
+    <item android:id="@+id/menuLogInWithGoogle"
+        android:title="Đăng nhập tài khoản Google"/>
+
+    <item android:id="@+id/menuUpload"
+        android:title="Upload dữ liệu lên cloud"/>
+    <item android:id="@+id/menuDownload"
+        android:title="Download dữ liệu từ cloud"/>
+</menu>

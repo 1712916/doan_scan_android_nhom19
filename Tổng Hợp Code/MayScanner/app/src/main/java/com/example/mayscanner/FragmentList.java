@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,14 @@ import androidx.fragment.app.Fragment;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class FragmentList  extends Fragment {
     private ListView listView;
     private ArrayList<ItemRow> array_view_pdf;
     ListViewAdapter listViewAdapter;
     private static final int REQUEST_ID_READ_PERMISSION = 200;
+    String fileName;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,8 +48,15 @@ public class FragmentList  extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getContext(),ShareFileActivity.class);
-                startActivity(intent);
+                Log.i("viettt", "aaaa");
+                fileName = array_view_pdf.get(position).getText();
+                Log.i("viettt", fileName);
+                Intent intent1 = new Intent(getContext(), PDFViewActivity.class);
+                Log.i("viettt", "onItemClick: ###");
+                StringTokenizer tokens = new StringTokenizer(fileName, ".");
+                fileName = tokens.nextToken();
+                intent1.putExtra("filename", fileName);
+                startActivity(intent1);
             }
         });
 
@@ -58,7 +68,7 @@ public class FragmentList  extends Fragment {
         ArrayList<ItemRow> listItem=new ArrayList<>();
         //File dowloadsFolder= getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File file = Environment.getExternalStorageDirectory();
-        File directory=new File(file.getAbsolutePath()+"/MyScanPDF/PDFs");
+        File directory=new File(file.getAbsolutePath()+"/ScanPDF/PDFs");
 
 
 

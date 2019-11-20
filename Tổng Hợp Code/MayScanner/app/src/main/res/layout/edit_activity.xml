@@ -8,7 +8,8 @@
     <com.example.mayscanner.ZoomableImageView
         android:id="@+id/imgv_edit"
         android:layout_width="fill_parent"
-        android:layout_height="450dp" />
+        android:layout_height="400dp"
+        android:layout_marginTop="10dp" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -18,7 +19,6 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-
             android:orientation="vertical">
 
             <LinearLayout
@@ -58,11 +58,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnToDrop"
+                    android:id="@+id/btnToCrop"
                     android:layout_width="200dp"
                     android:layout_height="130dp"
                     android:layout_marginLeft="1dp"
@@ -93,7 +92,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -124,8 +122,8 @@
                     android:textSize="20dp" />
 
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
-
 
 </LinearLayout>

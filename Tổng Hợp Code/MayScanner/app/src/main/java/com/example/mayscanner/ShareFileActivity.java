@@ -1,38 +1,45 @@
 package com.example.mayscanner;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.IOException;
 
-public class ShareFileActivity extends AppCompatActivity {
+public class ShareFileActivity extends Activity {
 
-    public static final int GALLERY_PICTURE = 1;
     private static final int REQUEST_ID_READ_PERMISSION = 100;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
     private Button btn;
-    private TextView tv;
+    private ImageView iv;
+    Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_file_activity);
         btn = (Button) findViewById(R.id.btn1);
-        tv = (TextView) findViewById(R.id.textview);
-
+        iv = (ImageView) findViewById(R.id.imageview);
+        Intent intent = getIntent();
+        uri = Uri.parse(intent.getStringExtra("URI"));
+        iv.setImageBitmap(uriToBitmap(uri));
         btn.setOnClickListener(new View.OnClickListener() {
                                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                                    @Override
@@ -48,25 +55,19 @@ public class ShareFileActivity extends AppCompatActivity {
         File f_exts = new File(extStore);
         String path = f_exts.getAbsolutePath();
 
-        // đường dẫn để test
-        String myFilePath = path + "/Pictures/Ahihi/000004.JPG";
+        String myFilePath = path + "/ScanPDF/Images/" + uri.getLastPathSegment();
         File file = new File(myFilePath);
 
-        tv.setText(file.getName());
         Toast.makeText(getApplicationContext(), file.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
-        intent.setDataAndType(uri, "image/*");
-        //PackageManager pm = getPackageManager();
-        //            if (intent.resolveActivity(pm) != null) {
-        //                startActivity(intent);
-        //            }
+        Uri uri = FileProvider.getUriForFile(this,BuildConfig.APPLICATION_ID, file);
+
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        shareIntent.setType("image/*");
+        shareIntent.setType("*/*");
         startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.send_to)));
     }
 
@@ -79,7 +80,6 @@ public class ShareFileActivity extends AppCompatActivity {
             testShareFile_Feture();
         }
     }
-
 
 
     // <không nên đụng vô>
@@ -101,7 +101,6 @@ public class ShareFileActivity extends AppCompatActivity {
         return true;
     }
     // </không nên đụng vô>
-
 
 
     // Khi yêu cầu hỏi người dùng được trả về (Chấp nhận hoặc không chấp nhận).
@@ -129,6 +128,19 @@ public class ShareFileActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
         }
+    }
+    private Bitmap uriToBitmap(Uri selectedFileUri) {
+        Bitmap image = null;
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+            parcelFileDescriptor.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 }
 

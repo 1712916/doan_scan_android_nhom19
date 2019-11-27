@@ -33,11 +33,11 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
        if(position==0)
        {
-            return "GRID VIEW";
+            return "IMAGES";
        }
        else if(position==1)
         {
-            return "LIST VIEW";
+            return "PDF";
         }
         return "__";
     }

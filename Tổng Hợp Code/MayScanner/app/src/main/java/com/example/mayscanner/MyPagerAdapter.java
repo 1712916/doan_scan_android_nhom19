@@ -14,6 +14,7 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     public  void add(Fragment fragment){
        // fragmentList.add(fragment);
     }
+
     @Override
     public Fragment getItem(int position) {
         switch (position){
@@ -40,5 +41,10 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
             return "PDF";
         }
         return "__";
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

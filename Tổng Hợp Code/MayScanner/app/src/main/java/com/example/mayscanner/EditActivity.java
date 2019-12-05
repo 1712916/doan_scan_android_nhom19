@@ -121,6 +121,12 @@ public class EditActivity extends Activity {
         bitmap = uriToBitmap(uri);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        imgvEdit.setImageBitmap(uriToBitmap(uri));
+    }
+
     public void recvData() {
 
         Intent intent = getIntent();

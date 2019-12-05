@@ -53,6 +53,7 @@ public class MainActivity extends FragmentActivity {
 
     ImageButton btnMenu;
     TextView txtState;
+    MyPagerAdapter myPagerAdapter;
 
     final int LOG_IN_REQUEST_CODE = 100;
     final int LOG_IN_WITH_GOOGLE_REQUEST_CODE = 101;
@@ -70,7 +71,7 @@ public class MainActivity extends FragmentActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         // MyCustomPagerAdapter myCustomPagerAdapter=new MyCustomPagerAdapter(this,arr);
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(myPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -82,6 +83,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 openGallery();
+
             }
         });
         btnCamera.setOnClickListener(new View.OnClickListener() {
@@ -226,6 +228,12 @@ public class MainActivity extends FragmentActivity {
                 .build();
         // [END config_signin]
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        myPagerAdapter.notifyDataSetChanged();
     }
 
     private void dispatchTakePictureIntent() {

@@ -37,7 +37,7 @@ public class FragmentGrid extends Fragment {
 
         //load du lieu cho array_view_images
         array_view_images=new ArrayList<>();
-        askPermissionAndWriteFile();
+        askPermissionAndReadFile();
 
 
         gridViewAdapter=new GridViewAdapter(getContext(),R.layout.grid_item,array_view_images);
@@ -131,12 +131,20 @@ public class FragmentGrid extends Fragment {
         return true;
     }
 
-    private void askPermissionAndWriteFile() {
-        boolean canWrite = this.askPermission(REQUEST_ID_READ_PERMISSION,
+    private void askPermissionAndReadFile() {
+        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         //
-        if (canWrite) {
+        if (canRead) {
             array_view_images=this.getFilePaths();
         }
+    }
+
+
+
+
+    public  void removeFirst(){
+        array_view_images.remove(0);
+        gridViewAdapter.notifyDataSetChanged();
     }
 }

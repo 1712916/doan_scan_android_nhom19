@@ -50,16 +50,12 @@ public class MainActivity extends FragmentActivity {
     Bitmap bitmapFromGallery;
     private String pathToFile;
 
-
     ImageButton btnMenu;
     TextView txtState;
     MyPagerAdapter myPagerAdapter;
 
     final int LOG_IN_REQUEST_CODE = 100;
     final int LOG_IN_WITH_GOOGLE_REQUEST_CODE = 101;
-    final int SIGN_UP_REQUEST_CODE = 102;
-    final int UPLOAD_REQUEST_CODE = 103;
-    final int DOWNLOAD_REQUEST_CODE = 104;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -103,103 +99,196 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.menuLogIn:
-                                if (mAuth.getCurrentUser() != null) {
-                                    Toast.makeText(MainActivity.this, "Bạn đang trong trạng thái đăng nhập", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
-                                Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-                                MainActivity.this.startActivityForResult(intent, LOG_IN_REQUEST_CODE);
+                        case R.id.menuLogIn:
+                            if (mAuth.getCurrentUser() != null) {
+                                Toast.makeText(MainActivity.this, "Bạn đang trong trạng thái đăng nhập",
+                                        Toast.LENGTH_LONG).show();
                                 break;
-                            case R.id.menuLogOut:
-                                if (mAuth.getCurrentUser() == null) {
-                                    Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
-                                FirebaseAuth.getInstance().signOut();
-                                mGoogleSignInClient.signOut().addOnCompleteListener(MainActivity.this,
-                                        new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
+                            }
+                            Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+                            MainActivity.this.startActivityForResult(intent, LOG_IN_REQUEST_CODE);
+                            break;
+                        case R.id.menuLogOut:
+                            if (mAuth.getCurrentUser() == null) {
+                                Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+                                break;
+                            }
+                            FirebaseAuth.getInstance().signOut();
+                            mGoogleSignInClient.signOut().addOnCompleteListener(MainActivity.this,
+                                    new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
 
+                                        }
+                                    });
+                            txtState.setText("Bạn chưa đăng nhập");
+                            Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_LONG).show();
+                            break;
+                        case R.id.menuSignUp:
+                            if (mAuth.getCurrentUser() != null) {
+                                Toast.makeText(MainActivity.this, "Bạn đang trong trạng thái đăng nhập",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+                            }
+                            Intent intent2 = new Intent(MainActivity.this, SignUpActivity.class);
+                            MainActivity.this.startActivity(intent2);
+                            break;
+                        case R.id.menuVerify:
+                            if (mAuth.getCurrentUser() == null) {
+                                Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+                                break;
+                            }
+                            if (mAuth.getCurrentUser().isEmailVerified()) {
+                                Toast.makeText(MainActivity.this, "Bạn đã xác minh email, không cần xác minh nữa",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+                            }
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            user.sendEmailVerification().addOnCompleteListener(MainActivity.this,
+                                    new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            // [START_EXCLUDE]
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(MainActivity.this,
+                                                        "Đã gửi xác minh đến email " + user.getEmail(),
+                                                        Toast.LENGTH_LONG).show();
+
+                                            } else {
+                                                Log.e("FAILURE", "sendEmailVerification", task.getException());
+                                                Toast.makeText(MainActivity.this, "Thất bại khi gửi xác minh.",
+                                                        Toast.LENGTH_LONG).show();
                                             }
-                                        });
-                                txtState.setText("Bạn chưa đăng nhập");
-                                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_LONG).show();
-                                break;
-                            case R.id.menuSignUp:
-                                if (mAuth.getCurrentUser() != null) {
-                                    Toast.makeText(MainActivity.this, "Bạn đang trong trạng thái đăng nhập", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
-                                Intent intent2 = new Intent(MainActivity.this, SignUpActivity.class);
-                                MainActivity.this.startActivity(intent2);
-                                break;
-                            case R.id.menuVerify:
-                                if (mAuth.getCurrentUser() == null) {
-                                    Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
-                                if (mAuth.getCurrentUser().isEmailVerified()) {
-                                    Toast.makeText(MainActivity.this, "Bạn đã xác minh email, không cần xác minh nữa", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
-                                final FirebaseUser user = mAuth.getCurrentUser();
-                                user.sendEmailVerification()
-                                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                // [START_EXCLUDE]
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(MainActivity.this,
-                                                            "Đã gửi xác minh đến email " + user.getEmail(),
-                                                            Toast.LENGTH_LONG).show();
+                                            // [END_EXCLUDE]
+                                        }
+                                    });
+                            // [END send_email_verification]
 
-                                                } else {
-                                                    Log.e("FAILURE", "sendEmailVerification", task.getException());
-                                                    Toast.makeText(MainActivity.this,
-                                                            "Thất bại khi gửi xác minh.",
-                                                            Toast.LENGTH_LONG).show();
-                                                }
-                                                // [END_EXCLUDE]
+                            break;
+                        case R.id.menuLogInWithGoogle:
+                            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                Toast.makeText(MainActivity.this, "Bạn đang trong trạng thái đăng nhập",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+                            }
+                            Intent intent3 = new Intent(MainActivity.this, GoogleSignInActivity.class);
+                            MainActivity.this.startActivityForResult(intent3, LOG_IN_WITH_GOOGLE_REQUEST_CODE);
+                            break;
+
+                        case R.id.menuUpload:
+                            if (mAuth.getCurrentUser() == null) {
+                                Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+                                break;
+                            }
+
+                            File file = Environment.getExternalStorageDirectory();
+                            String[] uploadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
+                            for (int idx = 0; idx < 3; idx++) {
+                                File directory = new File(file.getPath() + "/MyScanPDF" + uploadedDirectoryName[idx]);
+                                Log.d("fullpath", file.getPath() + "/MyScanPDF" + uploadedDirectoryName[idx]);
+                                if (directory.exists()) {
+                                    StorageReference mStorageRef;
+                                    mStorageRef = FirebaseStorage.getInstance()
+                                            .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
+                                                    + mAuth.getCurrentUser().getEmail() + uploadedDirectoryName[idx]);
+
+                                    // Toast.makeText(getActivity(),"Load dữ Images liệu thành
+                                    // công!",Toast.LENGTH_LONG).show();
+                                    File[] files = directory.listFiles();
+                                    for (int i = 0; i < files.length; i++) {
+                                        File z = files[i];
+                                        Uri mFileUri = Uri.fromFile(z);
+                                        StorageReference mIslandRef = mStorageRef.child(mFileUri.getLastPathSegment());
+                                        mIslandRef.putFile(mFileUri)
+                                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        // Get a URL to the uploaded content
+                                                        Toast.makeText(MainActivity.this, "Upload thành công",
+                                                                Toast.LENGTH_LONG).show();
+                                                        Log.d("UPLOAD_SUCCESSFUL", "SUCCESS");
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception exception) {
+                                                        Toast.makeText(MainActivity.this, "Upload thất bại",
+                                                                Toast.LENGTH_LONG).show();
+                                                        Log.d("EXCEPTION_UPLOAD", exception.getMessage());
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+
+                            break;
+                        case R.id.menuDownload:
+                            if (mAuth.getCurrentUser() == null) {
+                                Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+                                break;
+                            }
+
+                            File file2 = Environment.getExternalStorageDirectory();
+                            String[] downloadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
+                            for (int idx = 0; idx < 3; idx++) {
+                                File directory2 = new File(
+                                        file2.getPath() + "/MyScanPDF" + downloadedDirectoryName[idx]);
+                                directory2.mkdirs();
+                                StorageReference listRef = FirebaseStorage.getInstance()
+                                        .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
+                                                + mAuth.getCurrentUser().getEmail() + downloadedDirectoryName[idx]);
+                                listRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                    @Override
+                                    public void onSuccess(ListResult listResult) {
+                                        for (StorageReference prefix : listResult.getPrefixes()) {
+                                            // All the prefixes under listRef.
+                                            // You may call listAll() recursively on them.
+                                        }
+
+                                        for (StorageReference item : listResult.getItems()) {
+                                            // All the items under listRef.
+                                            String fileName = item.getName();
+                                            Log.d("tenfile", fileName);
+                                            File newFile = new File(directory2, fileName);
+
+                                            item.getFile(newFile).addOnSuccessListener(
+                                                    new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(
+                                                                FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            // Get a URL to the uploaded content
+                                                            Toast.makeText(MainActivity.this, "Download thành công",
+                                                                    Toast.LENGTH_LONG).show();
+                                                            Log.d("UPLOAD_SUCCESSFUL", "SUCCESS");
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception exception) {
+                                                            Toast.makeText(MainActivity.this, "Download thất bại",
+                                                                    Toast.LENGTH_LONG).show();
+                                                            Log.d("EXCEPTION_UPLOAD", exception.getMessage());
+
+                                                        }
+                                                    });
+                                            FileOutputStream fileOutputStream = null;
+                                            try {
+                                                fileOutputStream = new FileOutputStream(newFile);
+                                                fileOutputStream.flush();
+                                                fileOutputStream.close();
+                                            } catch (FileNotFoundException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
                                             }
-                                        });
-                                // [END send_email_verification]
-
-                                break;
-                            case R.id.menuLogInWithGoogle:
-                                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                                    Toast.makeText(MainActivity.this, "Bạn đang trong trạng thái đăng nhập", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
-                                Intent intent3 = new Intent(MainActivity.this, GoogleSignInActivity.class);
-                                MainActivity.this.startActivityForResult(intent3, LOG_IN_WITH_GOOGLE_REQUEST_CODE);
-                                break;
-
-                            case R.id.menuUpload:
-                                if (mAuth.getCurrentUser() == null) {
-                                    Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
-
-//                                Intent intent5 = new Intent(MainActivity.this, TextCloudActivity.class);
-//                                MainActivity.this.startActivity(intent5);
-
-
-                                //Intent intent5 = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                                //Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                                Intent gallery = new Intent();
-                                //intent5.setType("image/*");
-                                gallery.setType("*/*");
-                                gallery.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(gallery, UPLOAD_REQUEST_CODE);
-
-                                break;
-                            case R.id.menuDownload:
-                                if (mAuth.getCurrentUser() == null) {
-                                    Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
-                                    break;
-                                }
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Uh-oh, an error occurred!
+                                        Log.d("DOWNLOAD_DIR", e.getMessage());
+                                    }
+                                });
+                            }
                         }
                         return false;
                     }
@@ -223,9 +312,7 @@ public class MainActivity extends FragmentActivity {
         }
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         // [END config_signin]
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
@@ -255,7 +342,7 @@ public class MainActivity extends FragmentActivity {
 
     private File createPhotoFile() {
         String name = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        //String name="AAAA,jpg";
+        // String name="AAAA,jpg";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = null;
         try {
@@ -266,80 +353,74 @@ public class MainActivity extends FragmentActivity {
         return image;
     }
 
-
     private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGES);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case PICK_IMAGES: {
-                    source = data.getData();
-                    Intent intent = new Intent(getApplicationContext(), EditActivity.class);
-                    intent.putExtra("URI", source.toString());
-                    intent.putExtra("FILENAME", "");
-                    startActivity(intent);
+            case PICK_IMAGES: {
+                source = data.getData();
+                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                intent.putExtra("URI", source.toString());
+                intent.putExtra("FILENAME", "");
+                startActivity(intent);
 
-                    break;
-                }
-                case TAKE_PHOTO: {
-                    //Bitmap bitmap= BitmapFactory.decodeFile(pathToFile);
-                    Intent intent = new Intent(getApplicationContext(), EditActivity.class);
-                    intent.putExtra("URI", source.toString());
-                    intent.putExtra("FILENAME", "");
-                    startActivity(intent);
+                break;
+            }
+            case TAKE_PHOTO: {
+                // Bitmap bitmap= BitmapFactory.decodeFile(pathToFile);
+                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                intent.putExtra("URI", source.toString());
+                intent.putExtra("FILENAME", "");
+                startActivity(intent);
 
-                    break;
-                }
-                case LOG_IN_REQUEST_CODE: {
-                    break;
-                }
-                case LOG_IN_WITH_GOOGLE_REQUEST_CODE: {
-                    break;
-                }
-                case UPLOAD_REQUEST_CODE: {
-                    Uri mFileUri = data.getData();
+                break;
+            }
+            case LOG_IN_REQUEST_CODE: {
+                break;
+            }
+            case LOG_IN_WITH_GOOGLE_REQUEST_CODE: {
+                break;
+            }
+            case UPLOAD_REQUEST_CODE: {
+                Uri mFileUri = data.getData();
 
-                    Log.d("PATHNAME", mFileUri.toString());
+                Log.d("PATHNAME", mFileUri.toString());
 
-                    if (mFileUri != null) {
-                        StorageReference mStorageRef;
+                if (mFileUri != null) {
+                    StorageReference mStorageRef;
 
-                        mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://scanpdf-92556.appspot.com/" + mAuth.getCurrentUser().getEmail() + "/" + mFileUri.getLastPathSegment());
-                        mStorageRef.child("hihihi");
-                        mStorageRef.putFile(mFileUri)
-                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        // Get a URL to the uploaded content
-                                        Toast.makeText(MainActivity.this, "Upload thành công", Toast.LENGTH_LONG).show();
-                                        Log.d("UPLOAD_SUCCESS", "SUCCESS");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception exception) {
-                                        // Handle unsuccessful uploads
-                                        // ...
-                                        Toast.makeText(MainActivity.this, "Upload thất bại", Toast.LENGTH_LONG).show();
-                                        Log.d("EXCEPTION_UPLOAD", exception.getMessage());
-                                    }
-                                });
-                    }
+                    mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
+                            + mAuth.getCurrentUser().getEmail() + "/" + mFileUri.getLastPathSegment());
+                    mStorageRef.child("hihihi");
+                    mStorageRef.putFile(mFileUri)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    // Get a URL to the uploaded content
+                                    Toast.makeText(MainActivity.this, "Upload thành công", Toast.LENGTH_LONG).show();
+                                    Log.d("UPLOAD_SUCCESS", "SUCCESS");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle unsuccessful uploads
+                                    // ...
+                                    Toast.makeText(MainActivity.this, "Upload thất bại", Toast.LENGTH_LONG).show();
+                                    Log.d("EXCEPTION_UPLOAD", exception.getMessage());
+                                }
+                            });
                 }
+            }
 
             }
 
-
         }
-
 
     }
 }
-
-

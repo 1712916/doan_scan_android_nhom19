@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OpacityActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_launcher_background"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/cancelButton2"
+        android:layout_width="117dp"
+        android:layout_height="63dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginBottom="247dp"
+        android:text="Cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="437dp" />
+
+    <Button
+        android:id="@+id/okButton2"
+        android:layout_width="151dp"
+        android:layout_height="65dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="245dp"
+        android:text="Ok"
+        tools:layout_editor_absoluteX="211dp"
+        tools:layout_editor_absoluteY="437dp" />
+
+    <SeekBar
+        android:id="@+id/alphaSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="133dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="530dp"
+        android:max="255"
+        android:progress="255"/>
+
+    <SeekBar
+        android:id="@+id/contrastSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="58dp"
+        android:max="100"
+        android:progress="0"/>
+</RelativeLayout>

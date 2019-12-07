@@ -1,0 +1,24 @@
+﻿Drawable: Vẽ
+	https://viblo.asia/p/canvas-trong-android-phan-1-bJzKm1eDK9N
+	https://viblo.asia/p/canvas-trong-android-phan-2-3Q75wggD5Wb
+
+	Chỉ định layout(khung hình để vẻ)
+	https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android
+
+	Chọn ảnh từ thư viện ảnh của máy.
+	http://www.java2s.com/Code/Android/2D-Graphics/DrawonPictureandsave.htm?fbclid=IwAR2cf9TM8jcVIEFKzwrVPbWErE2vxldqPOOFDj_I6eIIDIe4JDXtFoTyIkE
+
+	Chọn màu
+	https://www.youtube.com/watch?v=7qXwgD45b4w
+	
+	Grandle
+	https://stackoverflow.com/questions/16754643/what-is-gradle-in-android-studio
+	https://kipalog.com/posts/Android-tu-co-ban-cho-den-nang-cao---Android-Gradle--P1
+
+	https://stackoverflow.com/questions/41093454/android-how-to-implement-drawing-on-top-of-image
+
+	Lấy bitmap từ drawable:
+	https://stackoverflow.com/questions/15255611/how-to-convert-a-drawable-image-from-resources-to-a-bitmap/15255786
+
+	Kết hợp 2 bipmap lại với nhau:
+	https://stackoverflow.com/questions/31813638/how-to-merge-bitmaps-in-android

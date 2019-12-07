@@ -258,14 +258,14 @@ public class MainActivity extends FragmentActivity {
                                                             // Get a URL to the uploaded content
                                                             Toast.makeText(MainActivity.this, "Download thành công",
                                                                     Toast.LENGTH_LONG).show();
-                                                            Log.d("UPLOAD_SUCCESSFUL", "SUCCESS");
+                                                            Log.d("DOWNLOAD_SUCCESSFUL", "SUCCESS");
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
                                                         public void onFailure(@NonNull Exception exception) {
                                                             Toast.makeText(MainActivity.this, "Download thất bại",
                                                                     Toast.LENGTH_LONG).show();
-                                                            Log.d("EXCEPTION_UPLOAD", exception.getMessage());
+                                                            Log.d("EXCEPTION_DOWNLOAD", exception.getMessage());
 
                                                         }
                                                     });
@@ -363,60 +363,30 @@ public class MainActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-            case PICK_IMAGES: {
-                source = data.getData();
-                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
-                intent.putExtra("URI", source.toString());
-                intent.putExtra("FILENAME", "");
-                startActivity(intent);
+                case PICK_IMAGES: {
+                    source = data.getData();
+                    Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                    intent.putExtra("URI", source.toString());
+                    intent.putExtra("FILENAME", "");
+                    startActivity(intent);
 
-                break;
-            }
-            case TAKE_PHOTO: {
-                // Bitmap bitmap= BitmapFactory.decodeFile(pathToFile);
-                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
-                intent.putExtra("URI", source.toString());
-                intent.putExtra("FILENAME", "");
-                startActivity(intent);
-
-                break;
-            }
-            case LOG_IN_REQUEST_CODE: {
-                break;
-            }
-            case LOG_IN_WITH_GOOGLE_REQUEST_CODE: {
-                break;
-            }
-            case UPLOAD_REQUEST_CODE: {
-                Uri mFileUri = data.getData();
-
-                Log.d("PATHNAME", mFileUri.toString());
-
-                if (mFileUri != null) {
-                    StorageReference mStorageRef;
-
-                    mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
-                            + mAuth.getCurrentUser().getEmail() + "/" + mFileUri.getLastPathSegment());
-                    mStorageRef.child("hihihi");
-                    mStorageRef.putFile(mFileUri)
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    // Get a URL to the uploaded content
-                                    Toast.makeText(MainActivity.this, "Upload thành công", Toast.LENGTH_LONG).show();
-                                    Log.d("UPLOAD_SUCCESS", "SUCCESS");
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Handle unsuccessful uploads
-                                    // ...
-                                    Toast.makeText(MainActivity.this, "Upload thất bại", Toast.LENGTH_LONG).show();
-                                    Log.d("EXCEPTION_UPLOAD", exception.getMessage());
-                                }
-                            });
+                    break;
                 }
-            }
+                case TAKE_PHOTO: {
+                    // Bitmap bitmap= BitmapFactory.decodeFile(pathToFile);
+                    Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                    intent.putExtra("URI", source.toString());
+                    intent.putExtra("FILENAME", "");
+                    startActivity(intent);
+
+                    break;
+                }
+                case LOG_IN_REQUEST_CODE: {
+                    break;
+                }
+                case LOG_IN_WITH_GOOGLE_REQUEST_CODE: {
+                    break;
+                }
 
             }
 

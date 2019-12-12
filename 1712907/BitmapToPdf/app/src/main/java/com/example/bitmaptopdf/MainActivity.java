@@ -137,7 +137,6 @@ public class MainActivity extends Activity {
 
         Canvas canvas = page.getCanvas();
 
-
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#ffffff"));
         canvas.drawPaint(paint);
@@ -161,7 +160,6 @@ public class MainActivity extends Activity {
             e.printStackTrace();
             Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
         }
-
         // close the document
         document.close();
     }

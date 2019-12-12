@@ -1,4 +1,0 @@
-#Thu Dec 12 14:05:37 ICT 2019
-base.0=D\:\\doan_scan\\doan_scan_android_nhom19\\Tong Hop Code\\MayScanner\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

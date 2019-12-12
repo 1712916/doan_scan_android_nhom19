@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -25,9 +26,18 @@ import java.util.StringTokenizer;
 public class FragmentGrid extends Fragment {
 
     private GridView gridView;
-    private ArrayList<ItemRow> array_view_images;
+    private ArrayList<ItemRow> array_view_images=new ArrayList<>();
     GridViewAdapter gridViewAdapter;
     private static final int REQUEST_ID_READ_PERMISSION = 200;
+    AsyncLoadImages asyncLoadImages=new AsyncLoadImages();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,13 +46,12 @@ public class FragmentGrid extends Fragment {
         gridView=(GridView)view.findViewById(R.id.grid_view_images);
 
         //load du lieu cho array_view_images
-        array_view_images=new ArrayList<>();
-        askPermissionAndReadFile();
 
 
         gridViewAdapter=new GridViewAdapter(getContext(),R.layout.grid_item,array_view_images);
 
         gridView.setAdapter(gridViewAdapter);
+        asyncLoadImages.execute();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,10 +68,11 @@ public class FragmentGrid extends Fragment {
 
             }
         });
+
         return  view;
     }
-    public ArrayList<ItemRow> getFilePaths() {
-        ArrayList<ItemRow> listItem=new ArrayList<>();
+    public void getFilePaths() {
+        array_view_images.clear();
         //File dowloadsFolder= getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File file = Environment.getExternalStorageDirectory();
         File directory=new File(file.getAbsolutePath()+"/ScanPDF/Images");
@@ -81,15 +91,12 @@ public class FragmentGrid extends Fragment {
                 item.setText(z.getName()); //lay ten cua tep
                 item.setUri(Uri.fromFile(z)); //lay uri cua tep
 
-                listItem.add(item);
+                array_view_images.add(item);
             }
 
-        }else
-        {
-            Toast.makeText(getActivity(),"Load dữ liệu Images thất bại!",Toast.LENGTH_LONG).show();
         }
 
-        return listItem;
+
     }
   /*  @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -131,13 +138,9 @@ public class FragmentGrid extends Fragment {
         return true;
     }
 
-    private void askPermissionAndReadFile() {
+    private void askPermission() {
         boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
-        //
-        if (canRead) {
-            array_view_images=this.getFilePaths();
-        }
     }
 
 
@@ -146,5 +149,19 @@ public class FragmentGrid extends Fragment {
     public  void removeFirst(){
         array_view_images.remove(0);
         gridViewAdapter.notifyDataSetChanged();
+    }
+    private class AsyncLoadImages extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getFilePaths();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            gridViewAdapter.notifyDataSetChanged();
+            super.onPostExecute(aVoid);
+        }
     }
 }

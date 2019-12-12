@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -25,10 +26,12 @@ import java.util.StringTokenizer;
 
 public class FragmentList  extends Fragment {
     private ListView listView;
-    private ArrayList<ItemRow> array_view_pdf;
+    private ArrayList<ItemRow> array_view_pdf=new ArrayList<>();
     ListViewAdapter listViewAdapter;
     private static final int REQUEST_ID_READ_PERMISSION = 200;
     String fileName;
+    AsyncLoadPdfs asyncLoadPdfs=new AsyncLoadPdfs();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,13 +40,13 @@ public class FragmentList  extends Fragment {
         listView=(ListView) view.findViewById(R.id.list_view_pdf);
 
         //load du lieu cho array_view_pdf
-        array_view_pdf=new ArrayList<>();
-        askPermissionAndWriteFile();
+
 
 
         listViewAdapter=new ListViewAdapter(getContext(),R.layout.list_view_item,array_view_pdf);
 
         listView.setAdapter(listViewAdapter);
+       asyncLoadPdfs.execute();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,8 +67,8 @@ public class FragmentList  extends Fragment {
 
     }
 
-    public ArrayList<ItemRow> getFilePaths() {
-        ArrayList<ItemRow> listItem=new ArrayList<>();
+    public void getFilePaths() {
+        array_view_pdf.clear();
         //File dowloadsFolder= getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File file = Environment.getExternalStorageDirectory();
         File directory=new File(file.getAbsolutePath()+"/ScanPDF/PDFs");
@@ -74,7 +77,7 @@ public class FragmentList  extends Fragment {
 
         if(directory.exists())
         {
-            Toast.makeText(getActivity(),"Mo duoc file de lay du lieu",Toast.LENGTH_LONG).show();
+
             File[] files=directory.listFiles();
             for(int i=0;i<files.length;i++){
                 File z=files[i];
@@ -84,15 +87,12 @@ public class FragmentList  extends Fragment {
                 item.setText(z.getName()); //lay ten cua tep
                 item.setUri(Uri.fromFile(z)); //lay uri cua tep
 
-                listItem.add(item);
+                array_view_pdf.add(item);
             }
 
-        }else
-        {
-           Toast.makeText(getActivity(),"KO mo duoc file de lay du lieu",Toast.LENGTH_LONG).show();
         }
 
-        return listItem;
+
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -101,17 +101,6 @@ public class FragmentList  extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //
         // Note: If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0) {
-            switch (requestCode) {
-                case REQUEST_ID_READ_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        array_view_pdf=getFilePaths();
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(getActivity(), "Permission Cancelled!", Toast.LENGTH_SHORT).show();
-        }
     }
     // With Android Level >= 23, you have to ask the user
     // for permission with device (For example read/write data on the device).
@@ -134,12 +123,21 @@ public class FragmentList  extends Fragment {
         return true;
     }
 
-    private void askPermissionAndWriteFile() {
-        boolean canWrite = this.askPermission(REQUEST_ID_READ_PERMISSION,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        //
-        if (canWrite) {
-            array_view_pdf=this.getFilePaths();
+
+
+    private class AsyncLoadPdfs extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getFilePaths();
+            return null;
         }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            listViewAdapter.notifyDataSetChanged();
+            super.onPostExecute(aVoid);
+        }
+
     }
 }

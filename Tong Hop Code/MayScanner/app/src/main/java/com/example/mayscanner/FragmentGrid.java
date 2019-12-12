@@ -34,7 +34,7 @@ public class FragmentGrid extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        askPermission();
 
     }
 
@@ -73,7 +73,7 @@ public class FragmentGrid extends Fragment {
         //File dowloadsFolder= getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File file = Environment.getExternalStorageDirectory();
         File directory=new File(file.getAbsolutePath()+"/ScanPDF/Images");
-
+        directory.mkdirs();
 
 
         if(directory.exists())

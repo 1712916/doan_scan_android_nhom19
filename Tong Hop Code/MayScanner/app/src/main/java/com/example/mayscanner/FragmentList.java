@@ -40,7 +40,7 @@ public class FragmentList  extends Fragment {
         listView=(ListView) view.findViewById(R.id.list_view_pdf);
 
         //load du lieu cho array_view_pdf
-
+        askPermission();
 
 
         listViewAdapter=new ListViewAdapter(getContext(),R.layout.list_view_item,array_view_pdf);
@@ -104,6 +104,12 @@ public class FragmentList  extends Fragment {
     }
     // With Android Level >= 23, you have to ask the user
     // for permission with device (For example read/write data on the device).
+    private void askPermission() {
+        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
+
     private boolean askPermission(int requestId, String permissionName) {
         if (android.os.Build.VERSION.SDK_INT >= 23) {
 

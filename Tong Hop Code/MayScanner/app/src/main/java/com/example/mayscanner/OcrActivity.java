@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 public class OcrActivity extends Activity {
     TextRecognizer textRecognizer;
@@ -61,14 +62,7 @@ public class OcrActivity extends Activity {
             @Override
             public void onClick(View v) {
                 content=editText.getText().toString();
-
-                if(fileName.equals(""))
-                {
-                    fileName=new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
-                }
-                fileName=fileName+".TXT";
-                saveText(fileName,content);
+                saveText("",content);
 
             }
         });
@@ -126,6 +120,8 @@ public class OcrActivity extends Activity {
     void saveText(String filename, String content)
     {
 
+        fileName=new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        filename=fileName+".TXT";
 
         //tạo file
         File file = Environment.getExternalStorageDirectory();

@@ -191,8 +191,8 @@ public class MainActivity extends FragmentActivity {
                             File file = Environment.getExternalStorageDirectory();
                             String[] uploadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
                             for (int idx = 0; idx < 3; idx++) {
-                                File directory = new File(file.getPath() + "/MyScanPDF" + uploadedDirectoryName[idx]);
-                                Log.d("fullpath", file.getPath() + "/MyScanPDF" + uploadedDirectoryName[idx]);
+                                File directory = new File(file.getPath() + "/ScanPDF" + uploadedDirectoryName[idx]);
+                                Log.d("fullpath", file.getPath() + "/ScanPDF" + uploadedDirectoryName[idx]);
                                 if (directory.exists()) {
                                     StorageReference mStorageRef;
                                     mStorageRef = FirebaseStorage.getInstance()
@@ -238,7 +238,7 @@ public class MainActivity extends FragmentActivity {
                             String[] downloadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
                             for (int idx = 0; idx < 3; idx++) {
                                 File directory2 = new File(
-                                        file2.getPath() + "/MyScanPDF" + downloadedDirectoryName[idx]);
+                                        file2.getPath() + "/ScanPDF" + downloadedDirectoryName[idx]);
                                 directory2.mkdirs();
                                 StorageReference listRef = FirebaseStorage.getInstance()
                                         .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
@@ -376,7 +376,6 @@ public class MainActivity extends FragmentActivity {
                     file=saveBitmap(uriToBitmap(source),"");
                     source=Uri.fromFile(file);
 
-
                     Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                     intent.putExtra("URI", source.toString());
                     intent.putExtra("FILENAME", file.getName());
@@ -408,6 +407,7 @@ public class MainActivity extends FragmentActivity {
         directory.mkdirs();
         if (fileName.equals("")) {
             fileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            fileName=fileName+".JPG";
         }
         File newFile = new File(directory, fileName);
 
@@ -418,9 +418,7 @@ public class MainActivity extends FragmentActivity {
             bm.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
-            Toast.makeText(getApplication(),
-                    "Save Bitmap: " + fileOutputStream.toString(),
-                    Toast.LENGTH_LONG).show();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(getApplication(),

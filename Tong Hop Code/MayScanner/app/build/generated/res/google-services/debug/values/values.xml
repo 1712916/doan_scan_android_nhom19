@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">747108413637-qlqkco7259kg50jgrsesqslfbeo43q3p.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://scanpdf-92556.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">747108413637</string>
+    <string name="google_api_key" translatable="false">AIzaSyChGF4wTQtxSEbrO_alkHwezk18RCGcxdg</string>
+    <string name="google_app_id" translatable="false">1:747108413637:android:06edb109c0608ccd4d80ac</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyChGF4wTQtxSEbrO_alkHwezk18RCGcxdg</string>
+    <string name="google_storage_bucket" translatable="false">scanpdf-92556.appspot.com</string>
+    <string name="project_id" translatable="false">scanpdf-92556</string>
+</resources>

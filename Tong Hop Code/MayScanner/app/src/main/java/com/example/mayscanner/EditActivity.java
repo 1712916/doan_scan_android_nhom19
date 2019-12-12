@@ -76,7 +76,6 @@ public class EditActivity extends Activity {
                 Intent intent=new Intent(getApplicationContext(),OcrActivity.class);
                 intent.putExtra("URI",uri.toString());
                 intent.putExtra("FILENAME",fileName);
-                Toast.makeText(getBaseContext(),"Lấy Text thành công",Toast.LENGTH_LONG).show();
                 startActivity(intent);
 
 

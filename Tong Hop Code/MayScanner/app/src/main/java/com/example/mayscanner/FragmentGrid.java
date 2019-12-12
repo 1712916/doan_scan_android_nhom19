@@ -57,9 +57,6 @@ public class FragmentGrid extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String fileName=array_view_images.get(position).getText();
-                StringTokenizer tokens = new StringTokenizer(fileName, ".");
-
-                fileName=tokens.nextToken();
                 Toast.makeText(getContext(),fileName,Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(getActivity(),EditActivity.class);
                 intent.putExtra("URI", array_view_images.get(position).getUri().toString());

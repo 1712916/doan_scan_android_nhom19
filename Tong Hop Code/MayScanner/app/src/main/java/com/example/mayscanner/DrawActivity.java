@@ -148,7 +148,7 @@ public class DrawActivity extends Activity {
         if (fileName.equals("")) {
             fileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         }
-        File newFile = new File(directory, fileName + ".JPG");
+        File newFile = new File(directory, fileName);
 
 
         try {

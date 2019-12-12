@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
@@ -52,7 +53,8 @@ public class OcrActivity extends Activity {
 
         recvData();
         bitmap=uriToBitmap(uri);
-
+        AsyncToReadTextByOCR asyncToReadTextByOCR=new AsyncToReadTextByOCR();
+        asyncToReadTextByOCR.execute();
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +92,7 @@ public class OcrActivity extends Activity {
         });
 
 
-        editText.setText(OCR());
+
     }
 
     public void recvData(){
@@ -104,6 +106,7 @@ public class OcrActivity extends Activity {
 
 
         }
+
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults){
@@ -133,7 +136,7 @@ public class OcrActivity extends Activity {
             FileOutputStream fos=new FileOutputStream(outFile);
             fos.write(content.getBytes());
             fos.close();
-            Toast.makeText(getBaseContext(),"Lưu file Text thành công",Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),"ScanPDF/TextOCR/"+filename,Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(getBaseContext(),"Không tìm thấy file",Toast.LENGTH_LONG).show();
@@ -186,5 +189,26 @@ public class OcrActivity extends Activity {
             return sb.toString();
         }
         return "";
+    }
+    private class AsyncToReadTextByOCR extends AsyncTask<Void,Void,Void>{
+        String res;
+
+        @Override
+        protected void onPreExecute() {
+            res=new String();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            res=OCR();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            editText.setText(res);
+            super.onPostExecute(aVoid);
+        }
     }
 }

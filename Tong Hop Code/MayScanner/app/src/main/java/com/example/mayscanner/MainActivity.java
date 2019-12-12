@@ -2,9 +2,11 @@ package com.example.mayscanner;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
@@ -36,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -345,15 +348,14 @@ public class MainActivity extends FragmentActivity {
     }
 
     private File createPhotoFile() {
-        String name = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        // String name="AAAA,jpg";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File file = Environment.getExternalStorageDirectory();
+        File directory = new File(file.getAbsolutePath() + "/ScanPDF/Images");
+        directory.mkdirs();
+
+        String fileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File newFile = new File(directory, fileName + ".JPG");
         File image = null;
-        try {
-            image = File.createTempFile(name, ".jpg", storageDir);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        image = newFile;
         return image;
     }
 
@@ -368,10 +370,16 @@ public class MainActivity extends FragmentActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PICK_IMAGES: {
+                    File file;
                     source = data.getData();
+
+                    file=saveBitmap(uriToBitmap(source),"");
+                    source=Uri.fromFile(file);
+
+
                     Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                     intent.putExtra("URI", source.toString());
-                    intent.putExtra("FILENAME", "");
+                    intent.putExtra("FILENAME", file.getName());
                     startActivity(intent);
 
                     break;
@@ -380,21 +388,65 @@ public class MainActivity extends FragmentActivity {
                     // Bitmap bitmap= BitmapFactory.decodeFile(pathToFile);
                     Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                     intent.putExtra("URI", source.toString());
-                    intent.putExtra("FILENAME", "");
+                    intent.putExtra("FILENAME", new File(source.getPath()).getName());
                     startActivity(intent);
 
                     break;
                 }
-                case LOG_IN_REQUEST_CODE: {
-                    break;
-                }
-                case LOG_IN_WITH_GOOGLE_REQUEST_CODE: {
-                    break;
-                }
+
 
             }
 
         }
 
+    }
+    private File saveBitmap(Bitmap bm, String fileName) {
+        //File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File file = Environment.getExternalStorageDirectory();
+
+        File directory = new File(file.getAbsolutePath() + "/ScanPDF/Images");
+        directory.mkdirs();
+        if (fileName.equals("")) {
+            fileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        }
+        File newFile = new File(directory, fileName);
+
+
+        try {
+            //MediaScannerConnection.scanFile(getApplicationContext(), new String[]  {directory.getPath()} , new String[]{"image/*"}, null);
+            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            Toast.makeText(getApplication(),
+                    "Save Bitmap: " + fileOutputStream.toString(),
+                    Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplication(),
+                    "Something wrong: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplication(),
+                    "Something wrong: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        }
+        return newFile;
+    }
+    private Bitmap uriToBitmap(Uri selectedFileUri) {
+        Bitmap image=null;
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+
+            parcelFileDescriptor.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 }

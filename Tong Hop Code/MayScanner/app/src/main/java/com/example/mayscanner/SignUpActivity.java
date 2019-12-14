@@ -130,7 +130,7 @@ public class SignUpActivity extends Activity implements
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Loading");
+            mProgressDialog.setMessage("Đang đăng kí");
             mProgressDialog.setIndeterminate(true);
         }
 

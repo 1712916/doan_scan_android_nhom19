@@ -1,6 +1,7 @@
 package com.example.mayscanner;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,12 +27,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RotateActivity extends AppCompatActivity {
+import static android.view.View.DRAWING_CACHE_QUALITY_LOW;
+
+public class RotateActivity extends Activity {
 
     Uri uri;
     int postition;
     Bitmap mBitmap;
-    MyCustomView myCustomView;
+    ImageView myCustomView;
     Button btnSave, btnCancel, btnRotate;
     private static final int REQUEST_ID_WRITE_PERMISSION = 200;
     String fileName="";
@@ -41,7 +45,7 @@ public class RotateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rotate);
 
         myCustomView=new MyCustomView(this);
-        myCustomView=(MyCustomView)findViewById(R.id.myviewRotate);
+        myCustomView=(ImageView) findViewById(R.id.myviewRotate);
         btnSave=(Button)findViewById(R.id.btnSaveRotate);
         btnCancel=(Button)findViewById(R.id.btnCancelRotate);
         btnRotate=(Button)findViewById(R.id.btnRotate);
@@ -51,7 +55,10 @@ public class RotateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // myCustomView.setDrawingCacheEnabled(true);
-                mBitmap=Bitmap.createBitmap(myCustomView.getNewImage());
+                myCustomView.setDrawingCacheEnabled(true);
+                myCustomView.destroyDrawingCache();
+                myCustomView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+                mBitmap=myCustomView.getDrawingCache();
                 //  test.setImageBitmap(myCustomView.getNewImage());
                 askPermissionAndWriteFile();
                 //myCustomView.setDrawingCacheEnabled(true);
@@ -69,7 +76,7 @@ public class RotateActivity extends AppCompatActivity {
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
                 mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
-                myCustomView.setmBitmap(mBitmap);
+                myCustomView.setImageBitmap(mBitmap);
             }
         });
     }
@@ -111,7 +118,7 @@ public class RotateActivity extends AppCompatActivity {
         if (fileName.equals("")) {
             fileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         }
-        File newFile = new File(directory, fileName + ".JPG");
+        File newFile = new File(directory, fileName );
 
 
         try {
@@ -142,9 +149,9 @@ public class RotateActivity extends AppCompatActivity {
         if(intent!=null)
         {
             uri = Uri.parse(intent.getStringExtra("URI"));
-            postition=intent.getIntExtra("POSITION",0);
+            fileName=intent.getStringExtra("FILENAME");
             mBitmap=uriToBitmap(uri);
-            myCustomView.setmBitmap(mBitmap);
+            myCustomView.setImageBitmap(mBitmap);
         }
     }
 

@@ -66,7 +66,7 @@
         android:layout_height="0dp"
         android:layout_weight="3"
         android:weightSum="3"
-        android:layout_margin="2dp"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <Button
@@ -79,7 +79,7 @@
             android:drawableTint="#388E3C"
             android:shadowColor="#000000"
             android:text="undo"
-            android:textSize="18dp" />
+            android:textSize="15dp" />
 
         <Button
             android:id="@+id/btnColor"
@@ -90,7 +90,7 @@
             android:drawableTop="@drawable/color"
             android:shadowColor="#000000"
             android:text="pick color"
-            android:textSize="18dp"></Button>
+            android:textSize="15dp"></Button>
 
         <Button
             android:id="@+id/btnSave"
@@ -102,7 +102,7 @@
             android:drawableTint="#FF388E3C"
             android:shadowColor="#000000"
             android:text="save"
-            android:textSize="18dp" />
+            android:textSize="15dp" />
 
     </LinearLayout>
 </LinearLayout>

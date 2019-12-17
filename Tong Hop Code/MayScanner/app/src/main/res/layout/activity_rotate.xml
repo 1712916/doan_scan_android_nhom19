@@ -5,76 +5,74 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical"
-    android:weightSum="12">
+    android:weightSum="20">
 
-    <com.example.mayscanner.MyCustomView
-        android:id="@+id/myviewRotate"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:background="#EEEEEE" />
-
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
-            android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="17">
+        <ImageView
+            android:id="@+id/myviewRotate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnRotate"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/button_selector"
-                android:drawableTop="@drawable/rotate"
-                android:drawableTint="#388E3C"
-                android:shadowColor="#000000"
-                android:text="rotate"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btnSaveRotate"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="1dp"
-                android:background="@drawable/button_selector"
-                android:drawableTop="@drawable/save"
-                android:shadowColor="#000000"
-                android:text="save"
-                android:textSize="20dp"></Button>
-
-            <Button
-                android:id="@+id/btnCancelRotate"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="1dp"
-                android:background="@drawable/button_selector"
-                android:drawableTop="@drawable/cancel"
-                android:drawableTint="#FF388E3C"
-                android:shadowColor="#000000"
-                android:text="cancel"
-                android:textSize="20dp" />
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="#EEEEEE" />
+    </LinearLayout>
 
 
-        </LinearLayout>
 
-    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:weightSum="3"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btnRotate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/rotate"
+            android:drawableTint="#388E3C"
+            android:shadowColor="#000000"
+            android:text="rotate"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/btnSaveRotate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/save"
+            android:drawableTint="#388E3C"
+            android:shadowColor="#000000"
+            android:text="save"
+            android:textSize="15dp"></Button>
+
+        <Button
+            android:id="@+id/btnCancelRotate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:drawableTop="@drawable/cancel"
+            android:drawableTint="#FF388E3C"
+            android:shadowColor="#000000"
+            android:text="cancel"
+            android:textSize="15dp" />
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

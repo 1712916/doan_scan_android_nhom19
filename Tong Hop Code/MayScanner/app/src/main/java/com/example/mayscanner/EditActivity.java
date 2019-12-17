@@ -110,7 +110,7 @@ public class EditActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), RotateActivity.class);
                 intent.putExtra("URI", uri.toString());
-                intent.putExtra("POSITION", postition);
+                intent.putExtra("FILENAME",fileName);
                 startActivity(intent);
             }
         });
@@ -132,7 +132,6 @@ public class EditActivity extends Activity {
         if (intent != null) {
             uri = Uri.parse(intent.getStringExtra("URI"));
             fileName = intent.getStringExtra("FILENAME");
-
             imgvEdit.setImageBitmap(uriToBitmap(uri));
         }
     }

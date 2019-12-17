@@ -180,7 +180,7 @@ public class MyCustomView extends ImageView {
 
         setDrawingCacheEnabled(true);
         destroyDrawingCache();
-        setDrawingCacheQuality(DRAWING_CACHE_QUALITY_LOW);
+        setDrawingCacheQuality(DRAWING_CACHE_QUALITY_HIGH);
         result=getDrawingCache();
 
         return result;

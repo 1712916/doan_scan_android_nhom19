@@ -29,6 +29,7 @@ public class FragmentGrid extends Fragment {
     private ArrayList<ItemRow> array_view_images=new ArrayList<>();
     GridViewAdapter gridViewAdapter;
     private static final int REQUEST_ID_READ_PERMISSION = 200;
+    private static final int  REQUEST_ID_WRITE_PERMISSION=201;
     AsyncLoadImages asyncLoadImages=new AsyncLoadImages();
 
     @Override
@@ -138,6 +139,8 @@ public class FragmentGrid extends Fragment {
     private void askPermission() {
         boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
+        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
 

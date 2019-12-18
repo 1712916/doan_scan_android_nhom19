@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,7 +32,7 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
     private FirebaseAuth mAuth;
     boolean flag = false;
 
-    public DownloadAsyncTask(Activity ctx) {
+    public DownloadAsyncTask(AppCompatActivity ctx) {
         contextCha = ctx;
     }
 
@@ -137,12 +139,7 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
     @Override
     protected void onProgressUpdate(Boolean... values) {
         super.onProgressUpdate(values);
-//        if (values[0]) {
-//            Toast.makeText(contextCha, "Download thành công", Toast.LENGTH_LONG).show();
-//        }
-//        else {
-//            Toast.makeText(contextCha, "Download thất bại", Toast.LENGTH_LONG).show();
-//        }
+        MainActivity.myPagerAdapter.notifyDataSetChanged();
     }
 
     @Override

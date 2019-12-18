@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
@@ -29,16 +30,12 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LogInActivity extends Activity implements
         View.OnClickListener {
-    private static final int MY_REQUEST_CODE = 100;
     //List<AuthUI.IdpConfig> providers;
     private FirebaseAuth mAuth;
     // Access a Cloud Firestore instance from your Activity
 //    FirebaseFirestore db;
     EditText emailField, passwordField;
-    TextView mStatusTextView, mDetailTextView;
-    Button signInButton, passwordLessButton;
-
-
+    TextView mDetailTextView;
 
     //------google sign in
     private static final String TAG = "GoogleActivity";
@@ -68,46 +65,39 @@ public class LogInActivity extends Activity implements
         if (!validateForm()) {
             return;
         }
-        showProgressDialog();
-        // [START sign_in_with_email]
+
+        showProgressDialog("Đang kết nối");
+
+        //[START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        boolean isLogin = false;
                         try {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("SUCCESS", "signInWithEmail:success");
                                 //FirebaseUser user = mAuth.getCurrentUser();
                                 Toast.makeText(LogInActivity.this, "Đăng nhập thành công", Toast.LENGTH_LONG).show();
-                                hideProgressDialog();
+
                                 LogInActivity.this.setResult(Activity.RESULT_OK);
+                                hideProgressDialog();
                                 finish();
-                                //isLogin = true;
                                 //updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("FAILURE", "signInWithEmail:failure", task.getException());
                                 Toast.makeText(LogInActivity.this, "Đăng nhập thất bại.", Toast.LENGTH_LONG).show();
                                 hideProgressDialog();
+                                finish();
                                 //updateUI(null);
                             }
                         } catch (Exception e) {
                             mDetailTextView.setText(e.getMessage());
+                            Log.d("ERRORLOGIN", e.getMessage());
+                            hideProgressDialog();
+                            finish();
                         }
-
-                        // [START_EXCLUDE]
-//                        if (!task.isSuccessful()) {
-//                            Toast.makeText(LogInActivity.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
-//                        }
-
-                        // [END_EXCLUDE]
-
-                        //Intent data = new Intent();
-                        //data.putExtra("isLogin", isLogin);
-
-
                     }
                 });
         // [END sign_in_with_email]
@@ -204,7 +194,7 @@ public class LogInActivity extends Activity implements
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         // [START_EXCLUDE silent]
-        showProgressDialog();
+        showProgressDialog("Đang kết nối");
         // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -215,17 +205,18 @@ public class LogInActivity extends Activity implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            hideProgressDialog();
                             Snackbar.make(findViewById(R.id.main_layout), "Đăng nhập thành công.", Snackbar.LENGTH_LONG).show();
                             LogInActivity.this.setResult(Activity.RESULT_OK);
+                            hideProgressDialog();
                             finish();
                             //FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            hideProgressDialog();
                             Snackbar.make(findViewById(R.id.main_layout), "Đăng nhập thất bại.", Snackbar.LENGTH_LONG).show();
+                            hideProgressDialog();
+                            finish();
                             //updateUI(null);
                         }
 
@@ -248,19 +239,27 @@ public class LogInActivity extends Activity implements
 
     public static ProgressDialog mProgressDialog;
 
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Đang kết nối");
-            mProgressDialog.setIndeterminate(true);
+    public void showProgressDialog(String message) {
+        try {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(LogInActivity.this);
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.setMessage(message);
+            mProgressDialog.show();
+        } catch (Exception e) {
+            Log.d("SHOWDIALOG", e.getMessage());
         }
-
-        mProgressDialog.show();
     }
 
-    public static void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
+    public void hideProgressDialog() {
+        try {
+            if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
+        } catch (Exception e) {
+            Log.d("HIDEDIALOG", e.getMessage());
         }
     }
 

@@ -59,24 +59,24 @@ public class MainActivity extends AppCompatActivity {
     private String pathToFile;
 
     TextView txtState;
-    public MyPagerAdapter myPagerAdapter;
+    public static MyPagerAdapter myPagerAdapter;
 
     final int LOG_IN_REQUEST_CODE = 100;
     final int LOG_IN_WITH_GOOGLE_REQUEST_CODE = 101;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    GoogleSignInOptions gso;
 
     final int MENU_SIGNUP_INDEX = 0;
     final int MENU_LOGIN_INDEX = 1;
-    final int MENU_LOGINWITHGOOGLE_INDEX = 2;
     final int MENU_VERIFY_INDEX = 2;
     final int MENU_UPLOAD_INDEX = 3;
     final int MENU_DOWNLOAD_INDEX = 4;
     final int MENU_LOGOUT_INDEX = 5;
 
     int mState = 0;
+
+    int dem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             txtState.setText(s);
         }
         // Configure Google Sign In
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         // [END config_signin]
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -180,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() == null) {
             menu.getItem(MENU_SIGNUP_INDEX).setVisible(true);
             menu.getItem(MENU_LOGIN_INDEX).setVisible(true);
-            //menu.getItem(MENU_LOGINWITHGOOGLE_INDEX).setVisible(true);
             menu.getItem(MENU_VERIFY_INDEX).setVisible(false);
             menu.getItem(MENU_UPLOAD_INDEX).setVisible(false);
             menu.getItem(MENU_DOWNLOAD_INDEX).setVisible(false);
@@ -189,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             menu.getItem(MENU_SIGNUP_INDEX).setVisible(false);
             menu.getItem(MENU_LOGIN_INDEX).setVisible(false);
-            //menu.getItem(MENU_LOGINWITHGOOGLE_INDEX).setVisible(false);
             menu.getItem(MENU_VERIFY_INDEX).setVisible(true);
             menu.getItem(MENU_UPLOAD_INDEX).setVisible(true);
             menu.getItem(MENU_DOWNLOAD_INDEX).setVisible(true);
@@ -203,22 +201,25 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menuLogIn:
+                dem++;
                 Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+                //intent.putExtra("dem", dem);
                 MainActivity.this.startActivityForResult(intent, LOG_IN_REQUEST_CODE);
                 break;
             case R.id.menuLogOut:
                 FirebaseAuth.getInstance().signOut();
-                GoogleSignIn.getClient(MainActivity.this, gso).signOut().addOnCompleteListener(MainActivity.this,
+                mGoogleSignInClient.signOut().addOnCompleteListener(MainActivity.this,
                         new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
                             }
                         });
-
-                txtState.setText("Bạn chưa đăng nhập");
-                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    txtState.setText("Bạn chưa đăng nhập");
+                    Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_LONG).show();
+                    invalidateOptionsMenu();
+                }
                 break;
             case R.id.menuSignUp:
                 Intent intent2 = new Intent(MainActivity.this, SignUpActivity.class);
@@ -440,6 +441,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
 
+                case LOG_IN_REQUEST_CODE:
+                    break;
 
             }
 

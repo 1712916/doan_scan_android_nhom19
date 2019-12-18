@@ -157,7 +157,7 @@ public class EditActivity extends Activity {
         options.setCircleDimmedLayer(true);
         options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorAccent));
         UCrop.of(sourceUri, destinationUri)
-                .withMaxResultSize(200, 200)
+                .withMaxResultSize(700, 700)
                 .withAspectRatio(5f, 5f)
                 .start(this);
     }
@@ -218,13 +218,13 @@ public class EditActivity extends Activity {
         if (fileName.equals("")) {
             fileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         }
-        File newFile = new File(directory, fileName + ".JPG");
+        File newFile = new File(directory, fileName);
 
 
         try {
             //MediaScannerConnection.scanFile(getApplicationContext(), new String[]  {directory.getPath()} , new String[]{"image/*"}, null);
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+            bm.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
             Toast.makeText(getApplication(),
@@ -249,7 +249,7 @@ public class EditActivity extends Activity {
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        inImage.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }

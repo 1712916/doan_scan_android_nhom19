@@ -1,6 +1,5 @@
 package com.example.mayscanner;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,14 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -62,22 +59,22 @@ public class MainActivity extends AppCompatActivity {
     private String pathToFile;
 
     TextView txtState;
-    MyPagerAdapter myPagerAdapter;
+    public MyPagerAdapter myPagerAdapter;
 
     final int LOG_IN_REQUEST_CODE = 100;
     final int LOG_IN_WITH_GOOGLE_REQUEST_CODE = 101;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInOptions gso;
 
     final int MENU_SIGNUP_INDEX = 0;
     final int MENU_LOGIN_INDEX = 1;
     final int MENU_LOGINWITHGOOGLE_INDEX = 2;
-    final int MENU_VERIFY_INDEX = 3;
-    final int MENU_UPLOAD_INDEX = 4;
-    final int MENU_DOWNLOAD_INDEX = 5;
-    final int MENU_LOGOUT_INDEX = 6;
-
+    final int MENU_VERIFY_INDEX = 2;
+    final int MENU_UPLOAD_INDEX = 3;
+    final int MENU_DOWNLOAD_INDEX = 4;
+    final int MENU_LOGOUT_INDEX = 5;
 
     int mState = 0;
 
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             txtState.setText(s);
         }
         // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         // [END config_signin]
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -151,10 +148,9 @@ public class MainActivity extends AppCompatActivity {
             photoFile = createPhotoFile();
 
             if (photoFile != null) {
-                pathToFile = photoFile.getAbsolutePath();
-                Uri photoUri = FileProvider.getUriForFile(MainActivity.this, BuildConfig.APPLICATION_ID, photoFile);
+                Uri photoUri = FileProvider.getUriForFile(MainActivity.this,BuildConfig.APPLICATION_ID, photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                source = photoUri;
+                source=Uri.fromFile(photoFile);
                 startActivityForResult(takePictureIntent, TAKE_PHOTO);
             }
         }
@@ -184,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() == null) {
             menu.getItem(MENU_SIGNUP_INDEX).setVisible(true);
             menu.getItem(MENU_LOGIN_INDEX).setVisible(true);
-            menu.getItem(MENU_LOGINWITHGOOGLE_INDEX).setVisible(true);
+            //menu.getItem(MENU_LOGINWITHGOOGLE_INDEX).setVisible(true);
             menu.getItem(MENU_VERIFY_INDEX).setVisible(false);
             menu.getItem(MENU_UPLOAD_INDEX).setVisible(false);
             menu.getItem(MENU_DOWNLOAD_INDEX).setVisible(false);
@@ -193,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             menu.getItem(MENU_SIGNUP_INDEX).setVisible(false);
             menu.getItem(MENU_LOGIN_INDEX).setVisible(false);
-            menu.getItem(MENU_LOGINWITHGOOGLE_INDEX).setVisible(false);
+            //menu.getItem(MENU_LOGINWITHGOOGLE_INDEX).setVisible(false);
             menu.getItem(MENU_VERIFY_INDEX).setVisible(true);
             menu.getItem(MENU_UPLOAD_INDEX).setVisible(true);
             menu.getItem(MENU_DOWNLOAD_INDEX).setVisible(true);
@@ -212,13 +208,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menuLogOut:
                 FirebaseAuth.getInstance().signOut();
-                mGoogleSignInClient.signOut().addOnCompleteListener(MainActivity.this,
+                GoogleSignIn.getClient(MainActivity.this, gso).signOut().addOnCompleteListener(MainActivity.this,
                         new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
                             }
                         });
+
                 txtState.setText("Bạn chưa đăng nhập");
                 Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_LONG).show();
                 invalidateOptionsMenu();
@@ -255,156 +252,160 @@ public class MainActivity extends AppCompatActivity {
                 // [END send_email_verification]
 
                 break;
-            case R.id.menuLogInWithGoogle:
-//                showProgressDialog("hihihii");
-//                Ngu();
-//                try {
-//                    if (MainActivity.this.isDestroyed()) { // or call isFinishing() if min sdk version < 17
-//                        break;
-//                    }
-//                    hideProgressDialog();
-//                } catch (Exception e) {
-//                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-
-                Intent intent3 = new Intent(MainActivity.this, GoogleSignInActivity.class);
-                MainActivity.this.startActivityForResult(intent3, LOG_IN_WITH_GOOGLE_REQUEST_CODE);
-                break;
+//            case R.id.menuLogInWithGoogle:
+////                showProgressDialog("hihihii");
+////                Ngu();
+////                try {
+////                    if (MainActivity.this.isDestroyed()) { // or call isFinishing() if min sdk version < 17
+////                        break;
+////                    }
+////                    hideProgressDialog();
+////                } catch (Exception e) {
+////                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+////                }
+//
+//                Intent intent3 = new Intent(MainActivity.this, GoogleSignInActivity.class);
+//                MainActivity.this.startActivityForResult(intent3, LOG_IN_WITH_GOOGLE_REQUEST_CODE);
+//                break;
 
             case R.id.menuUpload:
-                showProgressDialog("Đang upload dữ liệu lên cloud");
-                File file = Environment.getExternalStorageDirectory();
-                String[] uploadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
-                for (int idx = 0; idx < 3; idx++) {
-                    File directory = new File(file.getPath() + "/ScanPDF" + uploadedDirectoryName[idx]);
-                    Log.d("fullpath", file.getPath() + "/ScanPDF" + uploadedDirectoryName[idx]);
-                    if (directory.exists()) {
-                        StorageReference mStorageRef;
-                        mStorageRef = FirebaseStorage.getInstance()
-                                .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
-                                        + mAuth.getCurrentUser().getEmail() + uploadedDirectoryName[idx]);
-
-                        // Toast.makeText(getActivity(),"Load dữ Images liệu thành
-                        // công!",Toast.LENGTH_LONG).show();
-                        File[] files = directory.listFiles();
-                        for (int i = 0; i < files.length; i++) {
-                            File z = files[i];
-                            Uri mFileUri = Uri.fromFile(z);
-                            StorageReference mIslandRef = mStorageRef.child(mFileUri.getLastPathSegment());
-                            mIslandRef.putFile(mFileUri)
-                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                            // Get a URL to the uploaded content
-                                            Toast.makeText(MainActivity.this, "Upload thành công", Toast.LENGTH_LONG).show();
-                                            Log.d("UPLOAD_SUCCESSFUL", "SUCCESS");
-                                        }
-
-                                        @Override
-                                        protected void finalize() throws Throwable {
-                                            super.finalize();
-                                            hideProgressDialog();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception exception) {
-                                            Toast.makeText(MainActivity.this, "Upload thất bại", Toast.LENGTH_LONG).show();
-                                            Log.d("EXCEPTION_UPLOAD", exception.getMessage());
-                                        }
-
-                                @Override
-                                protected void finalize() throws Throwable {
-                                    super.finalize();
-                                    hideProgressDialog();
-                                }
-                            });
-                        }
-                    }
-                }
+                    UploadAsyncTask uAT = new UploadAsyncTask(MainActivity.this);
+                    uAT.execute();
+//                showProgressDialog("Đang upload dữ liệu lên cloud");
+//                File file = Environment.getExternalStorageDirectory();
+//                String[] uploadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
+//                for (int idx = 0; idx < 3; idx++) {
+//                    File directory = new File(file.getPath() + "/ScanPDF" + uploadedDirectoryName[idx]);
+//                    Log.d("fullpath", file.getPath() + "/ScanPDF" + uploadedDirectoryName[idx]);
+//                    if (directory.exists()) {
+//                        StorageReference mStorageRef;
+//                        mStorageRef = FirebaseStorage.getInstance()
+//                                .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
+//                                        + mAuth.getCurrentUser().getEmail() + uploadedDirectoryName[idx]);
+//
+//                        // Toast.makeText(getActivity(),"Load dữ Images liệu thành
+//                        // công!",Toast.LENGTH_LONG).show();
+//                        File[] files = directory.listFiles();
+//                        for (int i = 0; i < files.length; i++) {
+//                            File z = files[i];
+//                            Uri mFileUri = Uri.fromFile(z);
+//                            StorageReference mIslandRef = mStorageRef.child(mFileUri.getLastPathSegment());
+//                            mIslandRef.putFile(mFileUri)
+//                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                                        @Override
+//                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                                            // Get a URL to the uploaded content
+//                                            Toast.makeText(MainActivity.this, "Upload thành công", Toast.LENGTH_LONG).show();
+//                                            Log.d("UPLOAD_SUCCESSFUL", "SUCCESS");
+//                                        }
+//
+//                                        @Override
+//                                        protected void finalize() throws Throwable {
+//                                            super.finalize();
+//                                            hideProgressDialog();
+//                                        }
+//                                    }).addOnFailureListener(new OnFailureListener() {
+//                                        @Override
+//                                        public void onFailure(@NonNull Exception exception) {
+//                                            Toast.makeText(MainActivity.this, "Upload thất bại", Toast.LENGTH_LONG).show();
+//                                            Log.d("EXCEPTION_UPLOAD", exception.getMessage());
+//                                        }
+//
+//                                @Override
+//                                protected void finalize() throws Throwable {
+//                                    super.finalize();
+//                                    hideProgressDialog();
+//                                }
+//                            });
+//                        }
+//                    }
+//                }
                 break;
             case R.id.menuDownload:
-                showProgressDialog("Đang download dữ liệu từ cloud");
-                File file2 = Environment.getExternalStorageDirectory();
-                String[] downloadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
-                for (int idx = 0; idx < 3; idx++) {
-                    File directory2 = new File(
-                            file2.getPath() + "/ScanPDF" + downloadedDirectoryName[idx]);
-                    directory2.mkdirs();
-                    StorageReference listRef = FirebaseStorage.getInstance()
-                            .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
-                                    + mAuth.getCurrentUser().getEmail() + downloadedDirectoryName[idx]);
-                    listRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                        @Override
-                        public void onSuccess(ListResult listResult) {
-                            for (StorageReference prefix : listResult.getPrefixes()) {
-                                // All the prefixes under listRef.
-                                // You may call listAll() recursively on them.
-                            }
-
-                            for (StorageReference item : listResult.getItems()) {
-                                // All the items under listRef.
-                                String fileName = item.getName();
-                                Log.d("tenfile", fileName);
-                                File newFile = new File(directory2, fileName);
-
-                                item.getFile(newFile).addOnSuccessListener(
-                                        new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(
-                                                    FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                // Get a URL to the uploaded content
-                                                Toast.makeText(MainActivity.this, "Download thành công", Toast.LENGTH_LONG).show();
-                                                Log.d("DOWNLOAD_SUCCESSFUL", "SUCCESS");
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception exception) {
-                                        Toast.makeText(MainActivity.this, "Download thất bại", Toast.LENGTH_LONG).show();
-                                        //hideProgressDialog();
-                                        Log.d("EXCEPTION_DOWNLOAD", exception.getMessage());
-
-                                    }
-                                });
-                                FileOutputStream fileOutputStream = null;
-                                try {
-                                    fileOutputStream = new FileOutputStream(newFile);
-                                    fileOutputStream.flush();
-                                    fileOutputStream.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        @Override
-                        protected void finalize() throws Throwable {
-                            super.finalize();
-                            hideProgressDialog();
-                            finish();
-                            startActivity(getIntent());
-                            Toast.makeText(MainActivity.this, "Download thành công", Toast.LENGTH_LONG).show();
-                        }
-
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Uh-oh, an error occurred!
-                            Log.d("DOWNLOAD_DIR", e.getMessage());
-                        }
-
-                        @Override
-                        protected void finalize() throws Throwable {
-                            super.finalize();
-                            hideProgressDialog();
-                            //finish();
-                            //startActivity(getIntent());
-                            Toast.makeText(MainActivity.this, "Download thất bại", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                }
+                DownloadAsyncTask dAT = new DownloadAsyncTask(MainActivity.this);
+                dAT.execute();
+//                showProgressDialog("Đang download dữ liệu từ cloud");
+//                File file2 = Environment.getExternalStorageDirectory();
+//                String[] downloadedDirectoryName = { "/Images", "/TextOCR", "/PDFs" };
+//                for (int idx = 0; idx < 3; idx++) {
+//                    File directory2 = new File(
+//                            file2.getPath() + "/ScanPDF" + downloadedDirectoryName[idx]);
+//                    directory2.mkdirs();
+//                    StorageReference listRef = FirebaseStorage.getInstance()
+//                            .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
+//                                    + mAuth.getCurrentUser().getEmail() + downloadedDirectoryName[idx]);
+//                    listRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+//                        @Override
+//                        public void onSuccess(ListResult listResult) {
+//                            for (StorageReference prefix : listResult.getPrefixes()) {
+//                                // All the prefixes under listRef.
+//                                // You may call listAll() recursively on them.
+//                            }
+//
+//                            for (StorageReference item : listResult.getItems()) {
+//                                // All the items under listRef.
+//                                String fileName = item.getName();
+//                                Log.d("tenfile", fileName);
+//                                File newFile = new File(directory2, fileName);
+//
+//                                item.getFile(newFile).addOnSuccessListener(
+//                                        new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                                            @Override
+//                                            public void onSuccess(
+//                                                    FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                                // Get a URL to the uploaded content
+//                                                Toast.makeText(MainActivity.this, "Download thành công", Toast.LENGTH_LONG).show();
+//                                                Log.d("DOWNLOAD_SUCCESSFUL", "SUCCESS");
+//                                            }
+//                                        }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception exception) {
+//                                        Toast.makeText(MainActivity.this, "Download thất bại", Toast.LENGTH_LONG).show();
+//                                        //hideProgressDialog();
+//                                        Log.d("EXCEPTION_DOWNLOAD", exception.getMessage());
+//
+//                                    }
+//                                });
+//                                FileOutputStream fileOutputStream = null;
+//                                try {
+//                                    fileOutputStream = new FileOutputStream(newFile);
+//                                    fileOutputStream.flush();
+//                                    fileOutputStream.close();
+//                                } catch (FileNotFoundException e) {
+//                                    e.printStackTrace();
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        protected void finalize() throws Throwable {
+//                            super.finalize();
+//                            hideProgressDialog();
+//                            finish();
+//                            startActivity(getIntent());
+//                            Toast.makeText(MainActivity.this, "Download thành công", Toast.LENGTH_LONG).show();
+//                        }
+//
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            // Uh-oh, an error occurred!
+//                            Log.d("DOWNLOAD_DIR", e.getMessage());
+//                        }
+//
+//                        @Override
+//                        protected void finalize() throws Throwable {
+//                            super.finalize();
+//                            hideProgressDialog();
+//                            //finish();
+//                            //startActivity(getIntent());
+//                            Toast.makeText(MainActivity.this, "Download thất bại", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//
+//                }
                 break;
         }
         return super.onOptionsItemSelected(item);

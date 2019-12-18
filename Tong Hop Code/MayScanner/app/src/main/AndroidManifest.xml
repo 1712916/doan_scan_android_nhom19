@@ -57,7 +57,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity android:name=".PasswordlessActivity" />
-        <activity android:name=".GoogleSignInActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LogInActivity" />
     </application>

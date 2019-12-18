@@ -4,9 +4,9 @@
     <item android:id="@+id/menuSignUp"
         android:title="Đăng kí"/>
     <item android:id="@+id/menuLogIn"
-        android:title="Đăng nhập bằng email bất kì"/>
-    <item android:id="@+id/menuLogInWithGoogle"
-        android:title="Đăng nhập tài khoản Google"/>
+        android:title="Đăng nhập"/>
+<!--    <item android:id="@+id/menuLogInWithGoogle"-->
+<!--        android:title="Đăng nhập tài khoản Google"/>-->
 
     <item android:id="@+id/menuVerify"
         android:title="Xác minh email"/>

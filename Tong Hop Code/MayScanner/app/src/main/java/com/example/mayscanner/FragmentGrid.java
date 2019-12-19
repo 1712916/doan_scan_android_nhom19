@@ -74,6 +74,6 @@ public class FragmentGrid extends Fragment {
     }
 
     public void notifyDataSetChanged(){
-        gridView.deferNotifyDataSetChanged();
+        gridViewAdapter.notifyDataSetChanged();
     }
 }

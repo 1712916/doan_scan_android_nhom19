@@ -66,8 +66,9 @@ public class FragmentList  extends Fragment {
         return view;
 
     }
-    public void botifyDataSetChanged(){
-        listView.deferNotifyDataSetChanged();
+    public void notifyDataSetChanged(){
+
+        listViewAdapter.notifyDataSetChanged();
     }
 }
 

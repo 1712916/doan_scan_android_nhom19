@@ -133,18 +133,30 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
                 }
             });
         }
+
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
     @Override
     protected void onProgressUpdate(Boolean... values) {
         super.onProgressUpdate(values);
-        MainActivity.myPagerAdapter.notifyDataSetChanged();
+
+
+
     }
 
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
+        MainActivity.myPagerAdapter.notifyDataSetChanged();
+
 
         Log.d("ORDER", "3");
         //Log.d("KQTAI", result.toString());
@@ -163,7 +175,6 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
         //contextCha.finish();
         //contextCha.startActivity(contextCha.getIntent());
         Toast.makeText(contextCha, "Thực hiện Download đã xong!", Toast.LENGTH_LONG).show();
-
 
     }
 
@@ -192,4 +203,5 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
             Log.d("HIDEDIALOG", e.getMessage());
         }
     }
+
 }

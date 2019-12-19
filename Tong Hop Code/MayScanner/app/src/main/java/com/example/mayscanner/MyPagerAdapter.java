@@ -42,7 +42,7 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
        }
        else if(position==1)
         {
-            return "PDFs";
+            return "PDFS";
         }
         return "__";
     }
@@ -50,5 +50,21 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
+    }
+
+
+    public void notifyDataSetChanged_1(){
+        fragmentImages.notifyDataSetChanged();
+        fragmentPdfs.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+
+        super.notifyDataSetChanged();
+        MainActivity.getFilePaths(MainActivity.getArrImages(),"Images");
+        MainActivity.getFilePaths(MainActivity.getArrPdfs(),"PDFs");
+
+
     }
 }

@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -66,10 +67,12 @@ public class GridViewAdapter extends BaseAdapter {
             holder=(ViewHolder)view.getTag();
         }
         ItemRow itemRow;
+
         itemRow=List.get(i);
         Glide.with(context)
                 .load(itemRow.getUri())
                 .placeholder(R.drawable.placeholder_image)
+                .signature(new ObjectKey(String.valueOf(System.currentTimeMillis())))
                 .into( holder.imgIcon);
 
         return view;

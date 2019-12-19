@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     final int TAKE_PHOTO = 2;
     private FragmentGrid fragmentImages;
     private FragmentList fragmentPdfs;
-    private ArrayList<ItemRow> array_view_images=new ArrayList<>();
-    private ArrayList<ItemRow> array_view_pdfs=new ArrayList<>();
+    private static ArrayList<ItemRow> array_view_images=new ArrayList<>();
+    private static ArrayList<ItemRow> array_view_pdfs=new ArrayList<>();
     Uri source;
 
     TextView txtState;
@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+       // myPagerAdapter.notifyDataSetChanged_1();
+
         myPagerAdapter.notifyDataSetChanged();
     }
 
@@ -529,9 +531,13 @@ public class MainActivity extends AppCompatActivity {
         }
         return image;
     }
-
-
-    public void getFilePaths(ArrayList<ItemRow> array ,String fileName) {
+    public static ArrayList<ItemRow> getArrImages(){
+        return array_view_images;
+    }
+    public static ArrayList<ItemRow> getArrPdfs(){
+        return array_view_pdfs;
+    }
+    public static void getFilePaths(ArrayList<ItemRow> array ,String fileName) {
         array.clear();
         //File dowloadsFolder= getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File file = Environment.getExternalStorageDirectory();

@@ -53,10 +53,11 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btnCamera, btnLoadImage;
     final int PICK_IMAGES = 1;
     final int TAKE_PHOTO = 2;
-    private ArrayList<Integer> arr;
+    private FragmentGrid fragmentImages;
+    private FragmentList fragmentPdfs;
+    private ArrayList<ItemRow> array_view_images=new ArrayList<>();
+    private ArrayList<ItemRow> array_view_pdfs=new ArrayList<>();
     Uri source;
-    Bitmap bitmapFromGallery;
-    private String pathToFile;
 
     TextView txtState;
     public static MyPagerAdapter myPagerAdapter;
@@ -84,8 +85,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        // MyCustomPagerAdapter myCustomPagerAdapter=new MyCustomPagerAdapter(this,arr);
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+
+        getFilePaths(array_view_images,"Images");
+        getFilePaths(array_view_pdfs,"PDFs");
+
+        fragmentImages=new FragmentGrid(array_view_images);
+        fragmentPdfs=new FragmentList(array_view_pdfs);
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragmentImages,fragmentPdfs);
         viewPager.setAdapter(myPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -522,5 +528,34 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return image;
+    }
+
+
+    public void getFilePaths(ArrayList<ItemRow> array ,String fileName) {
+        array.clear();
+        //File dowloadsFolder= getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File file = Environment.getExternalStorageDirectory();
+        File directory=new File(file.getAbsolutePath()+"/ScanPDF/"+fileName);
+        directory.mkdirs();
+
+
+        if(directory.exists())
+        {
+            //Toast.makeText(getActivity(),"Load dữ Images liệu thành công!",Toast.LENGTH_LONG).show();
+            File[] files=directory.listFiles();
+            for(int i=0;i<files.length;i++){
+                File z=files[i];
+                ItemRow item=new ItemRow();
+
+
+                item.setText(z.getName()); //lay ten cua tep
+                item.setUri(Uri.fromFile(z)); //lay uri cua tep
+
+                array.add(item);
+            }
+
+        }
+
+
     }
 }

@@ -5,23 +5,27 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
-   //private List<Fragment> fragmentList=new ArrayList<>();
 
+    private FragmentGrid fragmentImages;
+    private FragmentList fragmentPdfs;
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public  void add(Fragment fragment){
-       // fragmentList.add(fragment);
+    public MyPagerAdapter(FragmentManager fm,FragmentGrid fragmentImages,FragmentList fragmentPdfs) {
+        super(fm);
+        this.fragmentImages=fragmentImages;
+        this.fragmentPdfs=fragmentPdfs;
     }
+
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new FragmentGrid();
+                return fragmentImages;
             case 1:
-                return new FragmentList();
+                return fragmentPdfs;
         }
         return null;
     }
@@ -38,7 +42,7 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
        }
        else if(position==1)
         {
-            return "PDF";
+            return "PDFs";
         }
         return "__";
     }

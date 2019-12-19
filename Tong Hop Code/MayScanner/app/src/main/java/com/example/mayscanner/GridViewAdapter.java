@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
@@ -50,6 +52,7 @@ public class GridViewAdapter extends BaseAdapter {
         ViewHolder holder;
         if(view==null)
         {
+
             LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view=inflater.inflate(layout,null);
             holder=new ViewHolder();
@@ -62,18 +65,12 @@ public class GridViewAdapter extends BaseAdapter {
         {
             holder=(ViewHolder)view.getTag();
         }
-
-
-        //gán giá trị
         ItemRow itemRow;
-        if(List.get(i)!=null)
-        {
-            itemRow=List.get(i);
-            //Bitmap bitmap = decodeUriToBitmap(this.context,itemRow.getUri());
-            //holder.imgIcon.setImageBitmap(bitmap);
-            holder.imgIcon.setImageURI(itemRow.getUri());
-
-        }
+        itemRow=List.get(i);
+        Glide.with(context)
+                .load(itemRow.getUri())
+                .placeholder(R.drawable.placeholder_image)
+                .into( holder.imgIcon);
 
         return view;
     }

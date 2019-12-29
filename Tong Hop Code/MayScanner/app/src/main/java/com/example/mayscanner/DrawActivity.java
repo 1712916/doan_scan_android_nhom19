@@ -33,17 +33,14 @@ import az.rasul.triangleseekbar.TriangleSeekbar;
 
 public class DrawActivity extends Activity {
     MyCustomView myCustomView;
-    ImageView test;
     Button btnUndo, btnSave, btnColor;
     Uri uri;
-    int postition;
     String fileName = "";
     Bitmap bitmap;
     Bitmap mBitmap;
 
     TriangleSeekbar triangleSeekbar;
     TextView progressText;
-    private static final int REQUEST_ID_WRITE_PERMISSION = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +83,7 @@ public class DrawActivity extends Activity {
                 mBitmap = Bitmap.createBitmap(myCustomView.getNewImage());
 
                 //  test.setImageBitmap(myCustomView.getNewImage());
-                askPermissionAndWriteFile();
+                saveBitmap(mBitmap, fileName);
                 //myCustomView.setDrawingCacheEnabled(true);
             }
         });
@@ -111,33 +108,6 @@ public class DrawActivity extends Activity {
         return result;
     }*/
 
-    private void askPermissionAndWriteFile() {
-        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        //
-        if (canWrite) {
-            this.saveBitmap(mBitmap, fileName);
-        }
-    }
-
-    private boolean askPermission(int requestId, String permissionName) {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-
-            // Check if we have permission
-            int permission = ActivityCompat.checkSelfPermission(this, permissionName);
-
-
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                // If don't have permission so prompt the user.
-                this.requestPermissions(
-                        new String[]{permissionName},
-                        requestId
-                );
-                return false;
-            }
-        }
-        return true;
-    }
 
     private void saveBitmap(Bitmap bm, String fileName) {
         //File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -158,7 +128,7 @@ public class DrawActivity extends Activity {
             fileOutputStream.flush();
             fileOutputStream.close();
             Toast.makeText(getApplication(),
-                    "Save Bitmap: " + fileOutputStream.toString(),
+                    "ScanPDF/Images/"+fileName,
                     Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -56,6 +56,7 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
             StorageReference listRef = FirebaseStorage.getInstance()
                     .getReferenceFromUrl("gs://scanpdf-92556.appspot.com/"
                             + mAuth.getCurrentUser().getEmail() + downloadedDirectoryName[idx]);
+            Log.d(mAuth.getCurrentUser().getEmail(), mAuth.getCurrentUser().getEmail());
             listRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
                 @Override
                 public void onSuccess(ListResult listResult) {
@@ -66,6 +67,8 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
                     for (StorageReference item : listResult.getItems()) {
                         // All the items under listRef.
                         String fileName = item.getName();
+                        //Log.d("loi tai ", fileName);
+
                         String extension = "";
                         int indexDot = fileName.lastIndexOf(".");
                         if (indexDot != -1) {
@@ -91,7 +94,9 @@ public class DownloadAsyncTask extends AsyncTask<Void, Boolean, Void> {
                                 break;
                             }
                         }
+
                         File newFile = new File(directory, newFileName);
+
                         item.getFile(newFile).addOnSuccessListener(
                                 new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                     @Override

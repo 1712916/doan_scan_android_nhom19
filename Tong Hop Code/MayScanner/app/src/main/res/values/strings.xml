@@ -8,4 +8,7 @@
     <string name="share_sms"></string>
     <string name="share_email_gmail"></string>
     <string name="send_to">Chon app de gui data</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

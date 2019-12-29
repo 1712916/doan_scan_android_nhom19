@@ -36,11 +36,11 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     }
     @Override
     public CharSequence getPageTitle(int position) {
-       if(position==0)
-       {
+        if(position==0)
+        {
             return "IMAGES";
-       }
-       else if(position==1)
+        }
+        else if(position==1)
         {
             return "PDFS";
         }

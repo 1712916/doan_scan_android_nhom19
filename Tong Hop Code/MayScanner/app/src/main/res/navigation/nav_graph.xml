@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/defaultFragment">
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.mayscanner.SignUpFragment"
+        android:label="Đăng kí"
+        tools:layout="@layout/sign_up_fragment" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.mayscanner.SignInFragment"
+        android:label="Đăng nhập"
+        tools:layout="@layout/sign_in_fragment" />
+    <fragment
+        android:id="@+id/defaultFragment"
+        android:name="com.example.mayscanner.DefaultFragment"
+        android:label="Scan PDF"
+        tools:layout="@layout/default_fragment" >
+    </fragment>
+
+</navigation>

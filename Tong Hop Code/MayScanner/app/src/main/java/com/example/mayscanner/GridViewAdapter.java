@@ -72,6 +72,7 @@ public class GridViewAdapter extends BaseAdapter {
         Glide.with(context)
                 .load(itemRow.getUri())
                 .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.error)
                 .signature(new ObjectKey(String.valueOf(System.currentTimeMillis())))
                 .into( holder.imgIcon);
 

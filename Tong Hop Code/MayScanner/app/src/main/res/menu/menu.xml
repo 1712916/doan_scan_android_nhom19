@@ -3,10 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menuSignUp"
         android:title="Đăng kí"/>
-    <item android:id="@+id/menuLogIn"
+    <item android:id="@+id/menuSignIn"
         android:title="Đăng nhập"/>
-<!--    <item android:id="@+id/menuLogInWithGoogle"-->
-<!--        android:title="Đăng nhập tài khoản Google"/>-->
 
     <item android:id="@+id/menuVerify"
         android:title="Xác minh email"/>
@@ -14,6 +12,6 @@
         android:title="Upload dữ liệu lên cloud"/>
     <item android:id="@+id/menuDownload"
         android:title="Download dữ liệu từ cloud"/>
-    <item android:id="@+id/menuLogOut"
+    <item android:id="@+id/menuSignOut"
         android:title="Đăng xuất"/>
 </menu>

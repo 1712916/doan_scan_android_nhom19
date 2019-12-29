@@ -71,4 +71,3 @@ public class FragmentList  extends Fragment {
         listViewAdapter.notifyDataSetChanged();
     }
 }
-

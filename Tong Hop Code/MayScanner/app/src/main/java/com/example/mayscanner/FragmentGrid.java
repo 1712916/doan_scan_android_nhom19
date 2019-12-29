@@ -17,7 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,13 +49,13 @@ public class FragmentGrid extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view=inflater.inflate(R.layout.grid_images,container,false);
-        gridView=(GridView)view.findViewById(R.id.grid_view_images);
+        View view = inflater.inflate(R.layout.grid_images, container, false);
+        gridView = (GridView) view.findViewById(R.id.grid_view_images);
 
         //load du lieu cho array_view_images
 
 
-        gridViewAdapter=new GridViewAdapter(getContext(),R.layout.grid_item,array_view_images);
+        gridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item, array_view_images);
 
         gridView.setAdapter(gridViewAdapter);
 
@@ -60,20 +63,26 @@ public class FragmentGrid extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String fileName=array_view_images.get(position).getText();
-                Toast.makeText(getContext(),fileName,Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(getActivity(),EditActivity.class);
-                intent.putExtra("URI", array_view_images.get(position).getUri().toString());
-                intent.putExtra("FILENAME",fileName);
-                startActivity(intent);
+                String fileName = array_view_images.get(position).getText();
 
+                File file = Environment.getExternalStorageDirectory();
+                File directory = new File(file.getAbsolutePath() + "/ScanPDF/Images");
+                File f = new File(directory, fileName);
+
+                if (f.length()!=0) {
+                    Toast.makeText(getContext(), fileName, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), EditActivity.class);
+                    intent.putExtra("URI", array_view_images.get(position).getUri().toString());
+                    intent.putExtra("FILENAME", fileName);
+                    startActivity(intent);
+                }
             }
         });
 
-        return  view;
+        return view;
     }
 
-    public void notifyDataSetChanged(){
+    public void notifyDataSetChanged() {
         gridViewAdapter.notifyDataSetChanged();
     }
 }

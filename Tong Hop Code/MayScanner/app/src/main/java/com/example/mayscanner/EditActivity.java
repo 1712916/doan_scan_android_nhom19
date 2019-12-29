@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,6 +29,7 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -77,8 +79,6 @@ public class EditActivity extends Activity {
                 intent.putExtra("URI",uri.toString());
                 intent.putExtra("FILENAME",fileName);
                 startActivity(intent);
-
-
             }
         });
 
@@ -156,10 +156,15 @@ public class EditActivity extends Activity {
         UCrop.Options options = new UCrop.Options();
         options.setCircleDimmedLayer(true);
         options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorAccent));
-        UCrop.of(sourceUri, destinationUri)
-                .withMaxResultSize(700, 700)
-                .withAspectRatio(5f, 5f)
-                .start(this);
+
+        try {
+             UCrop.of(sourceUri, destinationUri)
+                    .withMaxResultSize(500, 500)
+                    .withAspectRatio(5f, 5f)
+                     .start(this);
+        } catch (Exception e) {
+            Log.d("loi crop", e.getMessage());
+        }
     }
 
 

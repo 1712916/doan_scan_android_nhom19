@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,16 +31,23 @@ public class ShareFileActivity extends Activity {
     private Button btn;
     private ImageView iv;
     Uri uri;
-
+    String flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_file_activity);
-        btn = (Button) findViewById(R.id.btn1);
-        iv = (ImageView) findViewById(R.id.imageview);
+
         Intent intent = getIntent();
         uri = Uri.parse(intent.getStringExtra("URI"));
-        iv.setImageBitmap(uriToBitmap(uri));
+        flag=intent.getStringExtra("flag");
+        btn = (Button) findViewById(R.id.btn1);
+        iv = (ImageView) findViewById(R.id.imageview);
+        if(!flag.equals("pdf"))
+        {
+            iv.setImageBitmap(uriToBitmap(uri));
+        }
+
+        Log.i("viettt", flag);
         btn.setOnClickListener(new View.OnClickListener() {
                                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                                    @Override
@@ -54,8 +62,16 @@ public class ShareFileActivity extends Activity {
         String extStore = System.getenv("EXTERNAL_STORAGE");
         File f_exts = new File(extStore);
         String path = f_exts.getAbsolutePath();
+        String myFilePath;
 
-        String myFilePath = path + "/ScanPDF/Images/" + uri.getLastPathSegment();
+        if(flag.equals("pdf"))
+        {
+            myFilePath= path + "/ScanPDF/PDFs/" + uri.getLastPathSegment();
+        }
+        else {
+            myFilePath = path + "/ScanPDF/Images/" + uri.getLastPathSegment();
+        }
+
         File file = new File(myFilePath);
 
         Toast.makeText(getApplicationContext(), file.getAbsolutePath(), Toast.LENGTH_LONG).show();

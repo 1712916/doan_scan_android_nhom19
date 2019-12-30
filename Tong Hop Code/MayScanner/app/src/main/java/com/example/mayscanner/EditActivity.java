@@ -60,6 +60,8 @@ public class EditActivity extends Activity {
             {
                 Intent intent = new Intent(getApplicationContext(), ShareFileActivity.class);
                 intent.putExtra("URI",uri.toString());
+                intent.putExtra("flag","images");
+                Log.i("viettt", uri.toString());
                 startActivity(intent);
             }
         });

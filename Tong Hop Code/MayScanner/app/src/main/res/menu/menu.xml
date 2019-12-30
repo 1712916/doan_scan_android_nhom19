@@ -14,4 +14,7 @@
         android:title="Download dữ liệu từ cloud"/>
     <item android:id="@+id/menuSignOut"
         android:title="Đăng xuất"/>
+
+
+
 </menu>
